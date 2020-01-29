@@ -1,0 +1,43 @@
+% Figura: Experimento Epsilon
+\begin{figure}[H]
+	\centering
+		\begin{tikzpicture}
+			
+			% Styles
+			\tikzset{
+				block1/.style={draw, align=left, thick, rectangle, text width=1.2cm, minimum height=1cm},
+				block2/.style={draw, align=center, thick, rectangle, text width=1cm, minimum height=0.5cm},
+				block3/.style={draw, align=center, thick, rectangle, text width=3.3cm, minimum height=1.25cm},
+			}
+			
+			% Layer 1 Nodes
+			\node[block1] (kn) {K ótimo\\N ótimo};
+			
+			% Layer 2 Nodes
+			\node[block2, right=1cm of kn]   (l3)  {\textit{L} = 4};
+			\node[block2, above=0.1cm of l3] (l2)  {\textit{L} = 3};
+			\node[block2, above=0.1cm of l2] (l1)  {\textit{L} = 2};
+			\node[block2, below=0.5cm of l3] (l9)  {\textit{L} = 49};
+			\node[block2, below=0.1cm of l9] (l10) {\textit{L} = 50};
+			
+			% Layer 3 Nodes
+			%\node[block3, right=1cm of l3] (o) {\textit{Optimal}\\\textit{Activation Function}\\\textit{Optimal}\\\textit{Learning Rule}};
+			\node[block3, right=1cm of l3] (o) {Função de Ativação\\Ótima\\Regra de Aprendizado\\Ótima};
+			
+			% Arrows
+			\draw[dotted, thick] (l3) to (l9);
+			\draw[-stealth, thick] (kn.east)  -- (l1.west);
+			\draw[-stealth, thick] (kn.east)  -- (l2.west);
+			\draw[-stealth, thick] (kn.east)  -- (l3.west);
+			\draw[-stealth, thick] (kn.east)  -- (l9.west);
+			\draw[-stealth, thick] (kn.east)  -- (l10.west);
+			\draw[-, thick]        (l1.east)  -- (o.west);
+			\draw[-, thick]        (l2.east)  -- (o.west);
+			\draw[-, thick]        (l3.east)  -- (o.west);
+			\draw[-, thick]        (l9.east)  -- (o.west);
+			\draw[-, thick]        (l10.east) -- (o.west);
+
+		\end{tikzpicture}
+	\caption{Experimento 3.}
+	\label{fig:experimentoEpsilon}
+\end{figure}

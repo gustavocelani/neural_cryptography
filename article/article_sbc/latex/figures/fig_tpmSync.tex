@@ -1,0 +1,29 @@
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}
+            
+            % Styles
+            \tikzset{
+                block/.style={draw, align=center, thick, rectangle, text width=1.6cm, minimum height=1cm},
+                dblock/.style={draw, align=center, thick, rectangle, dashed, text width=3.8cm, minimum height=0.6cm}
+            }
+                
+            % Nodes
+            \node[dblock] (input) {Vetor de\\Entrada $[ x_{(k,j)} ]$};
+            \node[block, below left=of input,  xshift= 50pt, yshift=10pt] (tpmA) {TPM\\A};
+            \node[block, below right=of input, xshift=-50pt, yshift=10pt] (tpmB) {TPM\\B};
+            
+            % Label Nodes
+            \node[thick] at (0, -1.25) {$\tau^A$};
+            \node[thick] at (0, -2.25) {$\tau^B$};
+
+            % Arrows
+            \draw[-stealth, thick] ([yshift= 5pt] tpmA.east)  -- ([yshift= 5pt] tpmB.west);
+            \draw[-stealth, thick] ([yshift=-5pt] tpmB.west)  -- ([yshift=-5pt] tpmA.east);
+            \path[draw, -stealth, thick, dashed] (input.west) -- ++(-2cm,0) -- ++(0,-1.8cm) -- (tpmA.west);
+            \path[draw, -stealth, thick, dashed] (input.east) -- ++(+2cm,0) -- ++(0,-1.8cm) -- (tpmB.east);
+
+        \end{tikzpicture}
+    \caption{Sincronização entre \textit{Tree Parity Machines}.}
+    \label{fig:tpmSync}
+\end{figure}

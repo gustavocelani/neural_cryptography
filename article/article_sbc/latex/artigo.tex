@@ -1,0 +1,853 @@
+
+\documentclass[12pt]{article}
+\usepackage{sbc-template}
+
+% Bibliotecas
+\usepackage[Algoritmo]{algorithm}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{blindtext}
+\usepackage{float}
+\usepackage{flushend}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{pgfplots}
+\usepackage{scrextend}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage{url}
+\urlstyle{same}
+\usetikzlibrary{positioning,fit,calc,shapes,snakes}
+\pgfkeys{/pgf/number format/.cd,use comma,1000 sep={.}}
+
+% Comandos usados para comentários e revisão
+\newcommand{\review}[1]{\textcolor{red}{[#1]}\xspace}
+\newcommand{\done}[1]{\textcolor{blue}{[#1]}\xspace}
+
+% Constantes textuais
+\newcommand{\internet}{Internet\xspace}
+\newcommand{\web}{Web\xspace}
+\newcommand{\bits}{\textit{bits}\xspace}
+\newcommand{\Bits}{\textit{Bits}\xspace}
+\newcommand{\bytes}{\textit{bytes}\xspace}
+\newcommand{\Bytes}{\textit{Bytes}\xspace}
+
+% Traduzir algoritmos para portugues
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\forin}{\textbf{em}}
+\renewcommand{\algorithmicfunction}{\textbf{função}}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+\renewcommand{\algorithmicdo}{\textbf{faça}}
+\renewcommand{\algorithmicloop}{\textbf{repita}}
+\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+\renewcommand{\algorithmicend}{\textbf{fim}}
+
+\pagestyle{empty}
+
+\sloppy
+\begin{document}
+
+    \title{
+        Redes Neurais Artificiais Aplicadas à Geração e Troca de Chaves Criptográficas Binárias
+    }
+    
+    \author{Gustavo P. de O. Celani\inst{1}}
+
+    \address{
+        Instituto Nacional de Telecomunicações (INATEL)\\Santa Rita do Sapucaí - MG, Brasil
+        \email{gustavo\_celani@hotmail.com}
+    }
+
+    \maketitle
+
+    \begin{abstract}
+        With cryptography, is possible to make data unintelligible for those who do not have access to the planned rules. Cryptographic keys guarantee the security of the encrypted data regardless of the algorithm used. These keys are usually generated from pseudo-random values, requiring entropy, limiting their sizes by necessity performance, among other negative consequences. In addition, they have yet to be exchanged or shared. The proposal consists of generating cryptographic keys using different configurations of artificial neural networks in order to improve the performance and reliability of the process.
+    \end{abstract}
+
+    % \begin{keywords}
+    %     Information Security, Cryptography, Cryptographic Keys, Artificial Neural Networks, Neural Cryptography.
+    % \end{keywords}
+
+    \begin{resumo}
+        Com a criptografia, é possível fazer com que dados se tornem ininteligíveis para os que não tenham acesso às regras planejadas. As chaves criptográficas garantem a segurança dos dados encriptados independentemente do algoritmo utilizado. Estas chaves são, normalmente, geradas a partir de valores pseudo-aleatórios, exigindo entropia, limitando seus tamanhos por necessidade de desempenho, dentre outras consequências negativas. Além disso, as chaves ainda têm que ser trocadas ou compartilhadas. A proposta se consiste em gerar chaves criptográficas utilizando diferentes configurações de redes neurais artificiais com o intuito de melhorar o desempenho e a confiabilidade do processo.
+        
+    \end{resumo}
+  
+    % \begin{palavraschave}
+    %     Segurança da Informação, Criptografia, Chaves Criptográficas, Redes Neurais Artificiais, Criptografia Neural.
+    % \end{palavraschave}
+  
+    \section{Introdução}
+  
+        % Patrimônio Intelectual
+        Após a revolução industrial os produtos passaram a apresentar grande semelhança por conta da maior otimização oferecida por Taylor na produção de itens idênticos. Com isto, clientes passaram a buscar diferenciais nos produtos que consumiam e, portanto, a empresa oferecesse diferenciais em suas mercadorias acabaria se destacando no mercado. Para suprir tal necessidade, as instituições passaram a buscar cada vez mais contribuidores com conhecimentos nas mais variadas áreas para que novas ideias surgissem, resultando em produtos inovadores \cite{thereza2002capital}.
+    
+        A soma do conhecimento individual dos funcionários, suas experiências e \textit{know-how}, dados gerados por serviços, informações, procedimentos, rotinas e até mesmo documentações da instituição, formam o conhecido patrimônio intelectual, atualmente considerado o mais valioso no contexto empresarial.
+    
+        Este foi o divisor de águas da transição da sociedade entre a Era Industrial e a Era da Informação, na qual o conhecimento acumulado é tido como uma riqueza maior do que bens materiais. Neste novo contexto, a maior parte dos esforços passaram a ser direcionados ao tratamento, armazenamento e preservação destes dados de forma segura.
+    
+        Para a maioria das instituições ativas, perder seus dados seria algo catastrófico, levando a empresa a perder registros de funcionários, clientes, fornecedores, contabilidade, dentre outras inúmeras avarias. Seu prejuízo pode ser tão alto que a única saída seria declarar falência. Como foi o caso de uma \textit{exchange} de bitcoin sul-coreana que declarou falência após perder 17\% de suas reservas de ativos \cite{falencia2017tolotti}.
+    
+        Em 2014, a EY Brasil divulgou uma pesquisa sobre segurança de dados nas empresas brasileiras. Os dados mostravam que 54,2\% dos empresários afirmaram que os riscos de ataques cibernéticos aumentaram no ano de 2013. Ao mesmo tempo, mais de 62\% ampliariam seus investimentos em segurança da informação \cite{canal2014roubo}. Entretanto, tais esforços aparentemente não vêm sendo suficientes. De acordo com a Gemalto, mais de 2,6 bilhões de dados foram roubados, perdidos ou expostos mundialmente em 2017, constituindo um aumento de 88\% em relação a 2016 \cite{computer2017roubo}.
+    
+        Os usuários finais também são alvos dos crimes cibernéticos, direta ou indiretamente. De forma indireta, dados pessoais --- como fotos, arquivos salvos em nuvem, \textit{e-mails}, senhas, números de cartões, dentre outras informações --- podem ser vazados da base de dados de um sistema cujo o usuário possui um cadastro. Em 2016, a empresa Uber foi alvo de um ataque \textit{hacker black hat}\footnote{\textit{Hackers} que utilizam das vulnerabilidades de tal forma a suplantar os limites da lei.} (também conhecidos como \textit{full-fledged} ou \textit{crackers} \cite{nakamura2007coorporativos}) que expôs dados pessoais de 57 milhões de usuários cadastros, tanto de clientes quanto de motoristas \cite{globo2017uber}.
+    
+        % Segurança da Informação
+        Com o objetivo de proteger e preservar os dados de malfeitores, a área de Segurança da Informação (SI) se tornou indispensável na Era da Informação e é atualmente normatizada pela ISO\footnote{Do inglês, \textit{International Organization for Standardization.}}/IEC\footnote{Do inglês, \textit{International Electrotechnical Commission}.} 27002:2013 \cite{iso2013si}.
+    
+        % Segurança da Informação / Criptografia
+        A criptografia é uma das ferramentas mais importantes da SI, uma vez que a técnica apoia-se nos seis atributos básicos ilustrados na Figura \ref{fig:criptografiaSI}. A confidencialidade limita o acesso a informação tão somente para aqueles que possuem a devida autorização do proprietário da informação; a integridade garante que a informação permaneça isenta de qualquer alteração; a disponibilidade certifica a acessibilidade da informação para quem seja autorizado à utilizá-la; a autenticidade assegura a fonte da informação; a irretratabilidade impossibilita que a autoria da transação seja negada; a conformidade garante que as convenções estabelecidas serão seguidas de forma correta.
+    
+        % % Figura: Criptografia nos pilares da SI
+        \input{figures/fig_criptografiaSI.tex}
+    
+        % Criptografia
+        O uso da criptografia possibilita serviços a trocarem informações entre si por meio de um canal inseguro, muitas vezes a \internet, sem que terceiros entendam as mensagens trocadas, mesmo se interceptadas \cite{stinson2006cryptography}.
+    
+        % Chave Criptográfica
+        Para que os algoritmos criptográficos possam proteger uma mensagem legível, é necessária uma chave, cujo a função é controlar a operação do algoritmo de forma que somente esta chave seja capaz de descriptografar a mensagem. A Figura \ref{fig:criptografiaSimetrica} apresenta um cenário típico de uma criptografia simétrica, onde a chave é compartilhada.
+    
+        % Diagrama: Compartilhamento de chave em criptografia simétrica
+        \input{figures/fig_criptografiaSimetrica.tex}
+
+        Se esta chave for descoberta ou até mesmo roubada, as consequências podem ser desastrosas, uma vez que mensagens trocadas pelo serviço que faz o uso desta chave poderão ser descriptografadas e seu conteúdo --- muitas vezes privado --- exposto. Logo, uma parte essencial para garantir a segurança da informação é a realização da troca das chaves de uma forma segura quando a chave utilizada é compartilhada, como por exemplo na criptografia simétrica.
+    
+        Isto se evidencia no caso onde o certificado digital do banco Inter foi revogado após o mesmo ter sido publicado, juntamente com sua chave privada. A revogação foi caracterizada por \textit{key compromise}, que designa o vazamento da chave \cite{rohr2018inter}. Em um caso como este, a chave poderia ter sido usada para obtenção dos dados pessoais dos clientes do banco virtual, ou até mesmo para efetuar transações monetárias indiscriminadamente.
+    
+        Tendo em vista a importância da chave criptográfica, é notório que a principal dificuldade no desenvolvimento de sistemas seguros baseados em trocas de informações não é a escolha de um algoritmo criptográfico ideal, mas sim, ao gerenciamento da estrutura necessária para gerar, autenticar e transmitir as chaves criptográficas \cite{al2003certificateless}.
+    
+        % Gerações de chaves existentes
+        A maneira mais comum de geração destas chaves baseia-se na pseudoaleatoriedade, de forma que nenhuma estrutura matemática ou lógica seja utilizada para recriá-la. Para que esta geração seja o mais aleatória possível, a RFC4086\footnote{Do inglês, \textit{Request for Comments}: documentos técnicos desenvolvidos e mantidos pelo grupo IETF (do inglês, \textit{Internet Engineering Task Force}, responsável, por exmeplo, pela padronização de protocolos para a \internet.} é responsável por padronizar esta geração pseudo-aleatória \cite{ntwg2005rfc4086}.
+    
+        % Deficiências das gerações de chaves existentes
+        Para garantir a pseudoaleatoriedade, é necessário coletar entropia\footnote{Informações coletadas do sistema ditas probabilisticamente aleatórias.} do sistema \cite{ristenpart2010randomness}. Normalmente, ela é capturada por meio de eventos tratados como aleatórios como, por exemplo, as coordenadas de cliques do \textit{mouse}, movimentos do dispositivo de disco, consulta a uma posição de memória qualquer, dentre outros eventos imprevisíveis \cite{young2004malicious}. Esta situação faz com que, para gerar uma chave, seja necessária um quantidade de entropia do sistema diretamente proporcional ao tamanho da chave. Além disso, em sistemas onde não há muitos periféricos conectados ou fontes de entropia de um modo geral, esta geração acontece de forma ineficiente.
+    
+        % Proposta
+        Baseando-se no conteúdo até então apresentado, a proposta deste trabalho consiste na geração de chaves criptográficas binárias de tamanhos arbitrários utilizando redes neurais artificiais, bem como na análise de cada parâmetro utilizado no processo a fim de otimizá-lo.
+    
+        \subsection{Objetivos}
+            Este trabalho tem como objetivo gerar chaves criptográficas binárias de tamanho arbitrário utilizando criptografia neural. Este procedimento será metrificado com base nos parâmetros necessários para sua realização com a intenção de otimizar o método a partir do tamanho configurado da chave.
+    
+        \subsection{Contribuições do trabalho}
+            Os estudos deste trabalho visam apontar potenciais melhorias nos modelos atualmente propostos de geração de chaves criptográficas binárias.
+
+    \section{Revisão da teoria}
+    \label{sec:revisao_da_teoria}
+
+        \subsection{Segurança da Informação}
+        \label{subsec:seguranca_da_informacao}
+        
+            % Informação
+            Informação é tudo aquilo considerado relevante o suficiente para ser processado ou armazenado, tanto por humanos, quanto por máquinas. Uma mesma informação possui relevância diferente dependendo de quem a interpreta ou de como é representada.
+            
+            % Exemplo de Informação
+            Exemplo: um conjuntos de dados (informações) referente a uma lista de contatos não teria significado para um humano se fosse representado em forma binária, mas teria caso a representação se desse por meio de caracteres alfanuméricos. Em contrapartida, para que esta mesma lista de contatos seja interpretada por um sistema digital, ela deve estar representada em linguagem de máquina para que estes dados possam ser utilizados em algum serviço. Estas diferenças de representação são ilustradas na Figura \ref{fig:exemploInformacao}.
+
+            % Figura: Representativa do exemplo citado
+            \input{figures/fig_exemploInformacao.tex}
+            
+            Informação pode ser algo público, como a lista de contatos exemplificada anteriormente, ou dados privados, tais como dados bancários, históricos de transações e localizações, endereços \web visitados, pesquisas realizadas, produtos comprados, número de documentos, relação de bens, endereços, fotos, vídeos, dentre outros. Tendo em vista que o volume de dados vêm crescendo a taxas cada vez maiores \cite{weekly2017volume}, surge a necessidade de manter estes dados protegidos contra o uso ou acesso não autorizado; é neste contexto que faz-se relevante o conceito de segurança da informação (SI).
+            
+            % Propriedades Básicas da Segurança da Informação
+            A segurança da informação é padronizada pela norma ISO/IEC 27002:2013 \cite{iso2013si}. Nela são definidas as propriedades básicas da SI, sendo elas:
+            
+            \begin{itemize}
+                \item Confidenciabilidade: resguardo e proteção da informação apenas para quem é autorizado a acessá-la.
+                \item Integridade: garantia da consistência física e/ou lógica dos dados durante toda sua existência.
+                \item Disponibilidade: manutenção da disponibilidade das informações para o maior número de serviços/pessoas possíveis durante o máximo de tempo concebível.
+                \item Autenticidade: garantia que o dado a ser interpretado é íntegro.
+                \item Irretratabilidade ou Não Repúdio: garantia de que o gerador da informação não é capaz de negar sua autoria.
+                \item Conformidade: certeza de que as partes envolvidas seguirão as convenções e regulamentos estabelecidos.
+            \end{itemize}
+            
+            Caso alguma propriedade básica da SI seja desconsiderada ou transgredida, a informação resguardada deixará de ser considerada segura, o que pode acarretar em consequências financeiras, éticas ou morais. Uma série de recursos podem ser utilizados com a finalidade de evitar a violação destas propriedades. Existem mecanismos físicos, como infraestrutura, blindagem, restrição de acesso, dentre outros. Há também os controles lógicos que, dentro de uma gama de métodos existentes, incluem protocolos de comunicação, mecanismos de certificação digital, garantia de integridade por meio de técnicas de \textit{hashing}\footnote{Algoritmos que mapeiam dados de diversos comprimentos para dados de comprimento fixo.}, \textit{firewall}\footnote{Dispositivo de rede que visa aplicar uma política de segurança na mesma.} e \textit{proxy}\footnote{Agente intermediário em uma rede que age nas requisições dos clientes.} de rede, anti-vírus, assinatura digital e criptografia \cite{saint2005information}.
+            
+        \subsection{Criptografia}
+        \label{subsec:criptografia}
+            
+            % Definição 
+            A criptografia é a ciência da escrita secreta \cite{robling1982cryptoAndDataSec}. A necessidade do homem de poder se comunicar sem que as mensagens trocadas fossem interpretadas é antiga. Pode-se observar essa imprescindibilidade da criptografia em cenários como guerras, onde havia necessidade de comunicação com os combatentes sem que os opositores entendessem o que foi passado a eles, ou em situações nas quais é preciso limitar a informação somente para quem é autorizado a obtê-la.
+            
+            % Cifragem / Cifra de César
+            Um dos métodos criptográficos mais tradicionais é o da cifragem simples, que se tornou icônico quando utilizado pelo ex-ditador romano Júlio César para se comunicar com seus subordinados. Neste método de substituição monoalfabético\footnote{Cifra de substituição onde cada letra do texto em claro é substituída por uma outra letra no texto cifrado, de forma constante.}, os caracteres das mensagens são substituídos por outros seguindo um número de deslocamento padrão pré-determinado \cite{cohen2011short}.
+            
+            O método é exemplificado na Figura \ref{fig:cifraDeCesar} utilizando a chave ``2'', ou seja, com deslocamento de duas posições. Foi considerado um alfabeto de 26 letras. $E_n(x)$ representa a função de encriptação e $D_n(x)$ representa a função de decriptação, onde $x$ é o caractere alfabético.
+            
+            % Figura: Cifra de César
+            \input{figures/fig_cifraDeCesar.tex}
+            
+            Com o recorrente uso de métodos criptográficos nos mais diversos ecossistemas, a criptografia foi adquirindo importância e atraindo o interesse de acadêmicos e entusiastas, implicando no surgimento de novas técnicas cada vez mais aprimoradas.
+            
+            % Termos da Criptografia
+            Como vários pesquisadores passaram a contribuir com o desenvolvimento da criptografia, termos específicos passaram a ser utilizados com fins de padronização. Dentre eles, destacam-se \cite{robling1982cryptoAndDataSec}\cite{stallings2006cryptography}:
+            
+            \begin{itemize}
+                \item Texto puro (\textit{plain text}):
+                Nome dado à mensagem original, sem nenhum tipo de codificação.
+                
+                \item Texto criptografado (\textit{encrypted text}):
+                Se refere à mensagem codificada.
+                
+                \item Encriptação (\textit{encryption}):
+                Ato de codificar o texto puro para o texto criptografado.
+                
+                \item Decriptação (\textit{decryption}):
+                Transformação do texto criptografado de volta ao texto puro.
+                
+                \item Chave criptográfica (\textit{cryptographic key}):
+                Parâmetro utilizado pelos algoritmos de encriptação/decriptação para realizarem suas respectivas funções (explicadas com mais detalhes na seção \ref{subsec:chaves_criptograficas}).
+                
+            \end{itemize}
+                
+            % Algoritmos criptográficos relevantes
+            Após o esforço realizado para melhorar cada vez mais as técnicas criptográficas devido a eminente demanda pela segurança da informação, algoritmos relevantes passaram a surgir. Dentre esses algoritmos, podem ser citados:
+            
+            \subsubsection{\textit{Data Encryption Standard} (DES)}
+            \label{subsubsec:des}
+                
+                % Surgimento
+                Seu contexto é dado pela necessidade que o \textit{National Bureau of Standards} (NBS), atual \textit{National Institute of Standards and Technology} (NIST), instituto norte-americano padronizador de tecnologias, sentiu de proteger seus dados virtuais. Para tal, foi criado um algoritmo padrão capaz de proteger dados tanto nas transmissões quanto no armazenamento. A empresa norte-americana IBM (International Business Machines) propôs o Lucifer, um algoritmo de cifragem em blocos de 128 \bits utilizando uma chave, também, de 128 \bits \cite{terada2000seguranca}. O algoritmo de criptografia simétrica passou por uma série de modificações de terceiros, incluindo diminuição da chave para 64 \bits (sendo 56 \bits efetivos e 8 \bits de paridade com objetivo de controle), e fora publicado em detalhes pela \textit{National Security Agency} (NSA) em 1975. Entretanto, somente no ano seguinte ele foi aceito como padrão e passou a ser chamado de DES \cite{grabbe1992algorithm}.
+                
+                % Funcionamento
+                Na encriptação utilizando DES (Figura \ref{fig:des}) o texto puro é submetido a uma permutação inicial (\textit{Initial Permutation - IP}), o resultado da \textit{IP} passa por uma sequência de 16 estágios da Função Feistel (\textit{Feistel-F}). A chave criptográfica é então escalonada gerarando 16 sub-chaves de 48 \bits, cada uma usada em um estágio. Com o resultado de cada \textit{F} é realizada uma operação lógica OU-EXCLUSIVO (\textit{XOR}) com o anterior. Por fim, o fruto gerado pela sequência de \textit{XOR} é submetido a uma permutação final (\textit{Final Permutation - FP}), produzindo assim assim o texto criptografado. Para decriptar a mensagem, basta utilizar a mesma estrutura, porém com as sub-chaves geradas espelhadas, ou seja, a \textit{F1} receberá a sub-chave 16 e assim sucessivamente \cite{standard1999des}.
+                
+                % Figura: Data Encryptation Standard (DES)
+                \input{figures/fig_des.tex}
+            
+            \subsubsection{\textit{Blowfish} e \textit{Twofish}}
+            \label{subsubsec:blowfish}
+            
+                % Blowfish
+                O funcionamento do algoritmo é semelhante ao DES, porém, comporta chaves de 32 \bits até 448 \bits, tornando-o maleável para ser aplicado em diferentes finalidades \cite{thakur2011blowfish}.
+                
+                % Twofish
+                Já o algoritmo \textit{Twofish} foi uma proposta baseada no \textit{Blowfish}, porém, utiliza chaves de até 256 \bits, onde metade é utilizada como chave simétrica e a outra metade é usada para remodelar o algoritmo em cada iteração das funções Feistel \cite{lucks2001twofish}.
+                
+            \subsubsection{3DES}
+            \label{subsubsec:3DES}
+            
+                % Especificações
+                O 3DES, ou \textit{Triple DES}, consistem em três iterações do algoritmo DES, onde a saída de um serve de entrada para o outro. O texto puro é entrada para o primeiro DES, cuja saída é entrada para o segundo DES; analogamente, o terceiro DES utiliza a saída do segundo como entrada e, finalmente, a saída do terceiro DES será o texto criptografado.
+            
+            \subsubsection{Cast-128 e Cast-256}
+            \label{subsubsec:cast128}
+            
+                % Cast-128
+                Baseado no algoritmo DES, o algoritmo \textit{Cast-128} -- também conhecido como \textit{Cast5} -- foi publicado em 1997. Este também faz o uso dos 16 \textit{rounds} das funções Feistel, porém, opera com blocos de 64 \bits e suporta chaves de 40, 64, 80 ou 128 \bits \cite{adams1997cast128}.
+                
+                % Cast-256
+                No ano de 1999, foi formalizado o algoritmo \textit{Cast-256} (ou \textit{Cast6}). Este assume blocos de 128 \bits com chaves de 128, 160, 192, 224, ou 256 \bits \cite{adams1999cast256}. Ele realiza 48 \textit{rounds}, ou 12 ``\textit{quad-rounds}'' da função Feistel, onde as sub-chaves escalonadas são de 32 \bits \cite{riaz1999cast256fpga}.
+            
+            \subsubsection{\textit{Advanced Encryption Standard} (AES)}
+            \label{subsubsec:aes}
+                
+                % Especificações
+                O algoritmo \textit{Rijndael}, eleito como \textit{Advanced Encryption Standard} (AES), opera com blocos de 128 \bits e chaves de 128, 192 ou 256 \bits. Ao contrário do algoritmo DES e seus derivados, o AES não utiliza iterações em rede de funções Feistel; em vez disso, faz uso de uma rede de permutação-substituição. Ele foi projetado para ser mais eficiente em aplicações com baixo poder de processamento. Ele não possui uma quantidade de \textit{rounds} fixa; para chaves de 128 \bits, são realizados 10 \textit{rounds}, para 192 \bits, 12 \textit{rounds} e para chaves de 256 \bits, 14 iterações são realizadas \cite{daemen2013aes}.
+                
+                % Funcionamento
+                No início do processo, o texto puro é disposto em matrizes de 4x4 \bytes chamadas de estados. Em seguida, a chave é escalonada em sub-chaves de 128 \bits cada, com a quantidade variando de acordo com o número de \textit{rounds} e sendo uma chave por \textit{round} mais uma adicional para a inicialização do processo. Em cada iteração, uma sub-chave é adicionada, depois é realizada uma etapa de substituição não linear dos \bytes, de acordo com um estado tido como referência. Na sequência, acontece um deslocamento (\textit{shift}) das linhas dos estados, e os \bytes de cada coluna dos estados são transformados linearmente. O \textit{round} final se consiste na realização da substituição não linear, transposição das linhas do estado e adição da última sub-chave \cite{daemen2013aes}. A técnica é representada no pseudo-código \ref{alg:aes}.
+
+                % Pseudo-Código: Advanced Encryptation Standard (AES)
+                \begin{algorithm} [H]
+                \scriptsize
+                \caption{Advanced Encryptation Standard (AES)}
+                \label{alg:aes}
+                \begin{algorithmic}[1]
+                \Function{AES}{$State, CipherKey$}
+                    \State KeyExpansion(CipherKey,ExpandedKey);
+                    \State AddRoundKey(State,ExpandedKey[0]);
+                    \For{keys $K_i$ \forin{} $CipherKey$}
+                        \State Round(State,ExpandedKey[$K_i$]);
+                    \EndFor
+                    \State FinalRound(State,ExpandedKey[$K_f$]);
+                \EndFunction
+                \State
+                \Function{Round}{$State,ExpandedKey[K_i]$}
+                    \State Sub\Bytes(State);
+                    \State ShiftRows(State);
+                    \State MixColumns(State);
+                    \State AddRoundKey(State,ExpandedKey[$K_i$]);
+                \EndFunction
+                \State
+                \Function{FinalRound}{$State,ExpandedKey[K_i]$}
+                    \State Sub\Bytes(State);
+                    \State ShiftRows(State);
+                    \State AddRoundKey(State,ExpandedKey[$K_i$]);
+                \EndFunction
+                \end{algorithmic}
+                \end{algorithm}
+            
+            \subsubsection{Rivest-Shamir-Adleman (RSA)}
+            \label{subsubsec:rsa}
+            
+                % Descrição
+                Diferentemente dos algoritmos citados previamente, o RSA é dito de criptografia assimétrica, na qual as chaves privadas não são compartilhadas. Tal abordagem é bem difundida em aplicações que realizam transmissão de dados utilizando canais tidos como inseguros como, por exemplo, a \internet. O algoritmo é comumente utilizado para criptografar \textit{e-mails}, autenticação de usuários, transações em sites de comércio eletrônico, aplicações de bate-papo, dentre outros serviços \textit{online}.
+                
+                % Encryption / Decryption
+                A encriptação de mensagens $c$ por meio do RSA é realizada calculando a exponenciação modular da mensagem $m$, que deve ser obrigatoriamente menor que $n-1$, com o componente $e$ da chave pública: $m^e \equiv c \times mod (n)$. Já a decriptação da mensagem criptografada é realizada com o mesmo processo, porém, utilizando o componente $d$ da chave privada: $c^d \equiv m \times mod (n)$.
+                
+                % Geração de chaves
+                Para o processo de geração do par de chaves (pública e privada) são escolhidos pseudo-aleatoriamente dois números probabilisticamente primos ($p$ e $q$) com quantidade de dígitos na ordem de $10^{100}$. Estes números são multiplicados um pelo outro, produzindo $n$. Em seguida, é calculada a função Carmichael $\phi_{(n)}$ (cálculo do mínimo múltiplo comum entre os antecessores de $p$ e $q$). Feito isso, um inteiro pseudo-aleatório $e$ maior que 1 e menor que $\phi_{(n)}$ é escolhido de tal forma que sejam primos entre si. Este inteiro é usado no cálculo de $d$, de modo que $d$ seja o inverso multiplicativo de $e$ (ou seja, $d \times e \equiv 1$). Ao fim deste processo, dois conjuntos serão gerados: o que representa a chave privada (\textit{PVK}) -- par $[n, e]$ -- e o que caracteriza a chave pública (\textit{PBK}) -- $[p, q, d]$. Este processo é ilustrado no diagrama da Figura \ref{fig:RSAkeyGen}.
+                
+                % Figura: Fluxograma da Geração de chaves RSA
+                \input{figures/fig_RSAkeyGen.tex}
+        
+        \subsection{Chaves Criptográficas}
+        \label{subsec:chaves_criptograficas}
+            
+            % Definição
+            Chave criptográfica é uma informação que controla os algoritmos de criptografia. Por exemplo, para um mesmo algoritmo criptográfico e um mesmo texto puro, obtêm-se textos criptografados distintos ao utilizar chaves diferentes.
+            
+            % Chave pública / Chave privada
+            Existem basicamente dois tipos de chaves: as públicas e as privadas. As do primeiro tipo são comumente usadas em algoritmos de criptografia assimétricos, sendo responsáveis pela autenticação e encriptação da mensagem. Já as do segundo, além de serem usadas na criptografia assimétrica para decriptação da mensagem, também se fazem úteis na criptografia simétrica, onde são compartilhadas pelo transmissor e receptor de tal forma que somente ela seja capaz de encriptar e decriptar uma mensagem.
+            
+            % Diffie-Hellman Key Exchange
+            Para que as chaves possam ser trocadas entre serviços, existem algoritmos que possibilitam estas transferências em meio a canais inseguros de comunicação. Um destes algoritmos de intercâmbio de chaves criptográficas é o Diffie-Hellman padronizado pela RFC2631 \cite{rescorla1999diffie}.
+            
+            O protocolo baseia-se em operações logarítmicas discretas para realizar manipulações locais com uma chave pública comum a ambas partes, de forma que uma nova informação comum secreta possa ser obtida ao final do processo. Entretanto, para realizar a troca pelo algoritmo Diffie-Hellman, é necessária a geração prévia de uma chave pública de uma chave privada. O protocolo está representado na Figura \ref{fig:diffie_hellman}.
+            
+            % Figura: Diffie-Hellman Protocol
+            \input{figures/fig_diffie_hellman.tex}
+            
+            % Importância das Chaves
+            A segurança das chaves criptográficas são de grande importância para a segurança da informação, uma vez que se a chave for extraviada, os dados protegidos poderão ser descifrados por qualquer sistema que tenha o conhecimento das chaves envolvidas na criptografia. Como a grande maioria dos algoritmos criptográficos são de código aberto, a única forma de garantir a segurança das informações é mantendo o sigilo das chaves.
+            
+            % Tamanho da chave / Brute Force
+            Um dos ataques mais simples para encontrar uma chave criptográfica é o chamado ``força bruta'' (\textit{brute force}). Este ataque se consiste em realizar uma busca exaustiva em todas as possibilidades de combinações de caracteres até que a correta (chave) seja descoberta. O método possui a vantagem de ser 100\% eficaz, ou seja, há garantia de que, cedo ou tarde, a chave secreta será descoberta, uma vez que ela pertence ao conjunto de todas as combinações possíveis. Porém, este tipo de ataque passa a ser computacionalmente inviável quando a chave em questão é longa, pois quanto maior a chave, maior o número de combinações possíveis \cite{stinson2006cryptography}. Tal grandeza $C$ cresce exponencialmente na razão $C = 2^n$ para chaves binárias, como é mostrado no gráfico da Figura \ref{graph:combinations}.
+            
+            % Graphic: Brute force binary combinations
+            \input{graphics/graph_combinations.tex}
+            
+            % Geração de chaves
+            Um processo de geração de chaves criptográficas 100\% aleatório garantiria que nenhum sistema consiga reproduzir esta chave por meio da repetição de instruções. Como a aleatoriedade perfeita é computacionalmente utópica, a pseudoaleatoriedade descrita pela RFC4086 é adotada neste tipo de sistema \cite{ntwg2005rfc4086}.
+            
+            % Pseudoaleatoriedade / Entropia
+            A pseudoaleatoriedade faz uso de parâmetros definidos externamente, que recebem o nome de entropia \cite{ristenpart2010randomness}. Se consistem em informações que chegam a ser tão incertas que podem ser consideradas ``aleatórias''. Esta entropia é normalmente capturada em ações realizadas pela sistema como um todo como, por exemplo, movimentos do \textit{driver} de disco, dentre outros eventos probabilísticos considerados imprevisíveis \cite{young2004malicious}.
+            
+            % Deficiências da geração de chaves
+            A entropia coletada do sistema é a base para a geração da maioria das chaves criptográficas. Tal fato implica em uma relação diretamente proporcional com o tamanho da chave e, consequentemente, com sua segurança. Tal necessidade pode ser um problema para sistemas reduzidos que não possuem variadas fontes de entropia como, por exemplo, sistemas embarcados, tornando assim a geração de números pseudoaleatórios ineficiente.
+            
+        \subsection{Redes Neurais Artificiais}
+        \label{subsec:redes_neurais}
+        
+            % Definição
+            Redes neurais artificiais (RNA) são estruturas que têm como objetivo reproduzir computacionalmente o processamento realizado pelo cérebro humano. Uma RNA é uma agregação de unidades discretas de processamento baseadas em neurônios biológicos, intitulados neurônios artificiais \cite{aragao2018antispam}.
+            
+            % Figura: Neurônio Artificial
+            \input{figures/fig_neuronio.tex}
+            
+            % Neurônio
+            Os neurônios artificiais, representados pela Figura \ref{fig:neuronio}, recebem um ou mais estímulos de entrada ($x_m$), sendo que cada um possui uma influência sobre o processamento conhecida como ``peso sináptico'' ($w_{km}$). Estas entradas ponderadas, juntamente com um fator de correção fixo conhecido como viés ou limiar de ativação (\textit{bias}) ($b_k$), que possui seu próprio peso sináptico, são combinados linearmente ($\sum$) a fim de gerar um valor denominado potencial de ativação ($v_k$). Este valor é utilizado como entrada da função de ativação ($\varphi$), que serve para limitar a saída ($y_k$) do neurônio associado.
+            
+            % Aprendizado
+            A rede é submetida a conjuntos de entrada cujo as saídas podem ser conhecidas (treinamento supervisionado) ou não (treinamento não-supervisionado), onde cada iteração é uma época de treinamento. Uma regra de aprendizado é aplicada para atualizar os pesos sinápticos até que um critério de parada seja satisfeito. O conhecimento adquirido pela rede são os valores finais de seus pesos sinápticos.
+            
+            % Multi-layer / feedforward
+            Uma RNA pode possuir múltiplas camadas; neste caso, ela é denominadas \textit{multilayer}. Quando a saída dos neurônios artificias presentes nas camadas intermediárias das redes não realimentam neurônios das camadas anteriores, as redes são classificadas como ``de alimentação adiante'' (\textit{feedforward}).
+            
+            % Tree Parity Machine
+            Inúmeras combinações com neurônios artificiais podem ser feitas, logo existem incontáveis configurações de redes neurais. A \textit{Tree Parity Machine} (TPM) é um tipo característico de RNA \textit{multilayer} \textit{feedforward} frequentemente utilizado em aplicações que envolvem criptografia neural (vide seção \ref{subsec:criptografia_neural}).
+            
+            As TPMs possuem uma única saída ($\tau \in \{-1,+1\}$) e 3 camadas (\textit{layers}) fixas: camada de entrada (\textit{input layer}); camada oculta ou escondida  (\textit{hidden layer}) e camada de saída (\textit{output layer}), que contém uma função multiplicadora. Na configuração da TPM são selecionados três parâmetros: 
+            \begin{itemize}
+                \item $K$: Número de neurônios na camada escondida ($1 \leq k \leq K$)
+                \item $N$: Número de entradas para cada neurônio ($1 \leq j \leq N$)
+                \item $L$: Configura a faixa de valores dos pesos sinápticos, na qual $w_{kj}(t) \in [-L,L]$
+            \end{itemize}
+            Em uma TPM tem-se $K \times N$ elementos gerados para compor o vetor de entrada, sendo que as entradas obedecem $x_{kj}(t) \in \{-1,+1\}$ \cite{volkmer2005tree}. A Figura \ref{fig:tpm} apresenta uma \textit{Tree Parity Machine} parametrizada com $K = 3$ e $N = 4$.
+            
+            % Figura: Tree Parity Machine
+            \input{figures/fig_tpm.tex}
+            
+        \subsection{Criptografia Neural}
+        \label{subsec:criptografia_neural}
+        
+            % Conceito
+            Criptografia neural é uma área da criptografia dedicada à utilizar redes neurais artificiais em procedimentos que envolvem geração e troca de chaves criptográficas. Em suas aplicações, são comumente utilizadas uma configuração específica de redes neurais artificiais chamada \textit{Tree Parity Machine} (explicadas adiante na seção \ref{subsec:redes_neurais}).
+            
+            % Sincronização
+            A técnica de geração de chaves utiliza da sincronização mutua entre duas \textit{Tree Parity Machines} (representada pela Figura \ref{fig:tpmSync}) inicializadas com os mesmos parâmetros. No processo de treinamento das redes neurais artificiais, o vetor de entrada ($x_{(k,j)}$) utilizado em cada iteração é compartilhado e as saídas ($\tau^{A/B}$) são comparadas para decidir se a regra de aprendizado será aplicada ou não.
+            
+            % Figura: Sincronização Mutua entre Tree Parity Machines
+            \input{figures/fig_tpmSync.tex}
+            
+            % Geração / Troca
+            As redes somente atingem a sincronização quando seus vetores de pesos sinápticos (explicadas adiante na seção \ref{subsec:redes_neurais}) se tornem idênticos. Isto é o critério de parada para o treinamento e indica que a chave foi gerada. A chave resultante é o próprio vetor de pesos sinápticos. Como ele está presente em ambas as redes, é possível instanciar cada rede em uma aplicação distinta, assim ao final do processo, ambas as redes possuirão a chave, caracterizando a troca.
+  
+    \section{Revisão da bibliografia}
+    \label{sec:revisao_da_bibliografia}
+  
+        % Introdução
+        Estudos direcionados à área de geração de chaves criptográficas por meio de criptografia neural se tornaram recorrentes em publicações a partir dos anos 2000. Os trabalhos buscaram não só melhorar o desempenho do método, como também prover mais segurança em aplicações que envolvam troca de chaves em meios de comunicação não confiáveis.
+    
+        % 1. monrose2001voice / 2. chang2004biometrics
+        Um ponto crucial ao processo de geração de chaves criptográficas é a fonte de entropia. Monrose et al. \cite{monrose2001voice} e Chang et al. \cite{chang2004biometrics} propuseram o uso de características biométricas -- captura de voz e captura facial -- como fonte de entropia da pseudoaleatoriedade necessária, por serem consideradas únicas em seres vivos. Também foram consideradas o uso de impressões digitais, identificação de iris e geometria da mão. Tal abordagem pode tornar o procedimento de geração de chaves mais aleatório mas, ao mesmo tempo, estreitamente dependente de entradas externas.
+        
+        % 3. ruttor2007neural
+        Ruttor \cite{ruttor2007neural} propôs uma das mais conhecidas e utilizadas técnicas de criptografia neural: a sincronização entre duas redes neurais artificiais do tipo \textit{Tree Parity Machines} baseando-se em seus aprendizados mútuos. Na proposta, as TPM eram inicializadas com pesos sinápticos aleatórios e compartilhavam suas saídas com o intuito de se sincronizarem. Vetores congêneres aleatórios alimentavam ambas as redes e, caso suas saídas coincidissem, a regra de aprendizado era aplicada e seus pesos eram atualizados. As RNAs estavam sincronizadas quando seus vetores de pesos sinápticos tornaram-se análogos. Tais vetores, após a sincronização, consistiram na chave criptográfica gerada pelo processo.
+        
+        % 4. piazentin2011troca
+        Piazentin \cite{piazentin2011troca} realizou um estudo fortemente baseado na proposta de Ruttor \cite{ruttor2007neural} sobre parâmetros de sincronização entre duas \textit{Tree Parity Machines}. Em seu trabalho foram analisadas as influências dos parâmetros $L$, $K$, $N$ e da regra de aprendizado no processo de sincronização com relação à segurança do proposta. Constatou-se que a regra de aprendizado que se mostrou mais eficiente em sua aplicação foi a \textit{Hebbian} \cite{hebb1949organization}. Como o próprio autor afirma, o desempenho não pôde ser aferido de fato, uma vez que o trabalho fora realizado em Python, linguagem de programação com alto nível de abstração. Também não foi possível definir uma configuração ideal dos parâmetros da rede.
+    
+        % 5. revankar2010private
+        No trabalho de Revankar et al. \cite{revankar2010private} foi proposto um mecanismo de troca de chaves criptográficas utilizando criptografia neural, onde os vetores pseudoaleatórios de entrada são substituídos por consultas que dependem do estado atual da rede neural. Para isso, os autores utilizaram a regra descrita pela Equação \eqref{eq:queryGen}, na qual $c_{k, \pm l}$ representa o número de produtos, sendo que o vetor de psos sinápticos ($w_{k,j}$) multiplicado pelo vetor de entrada ($x_{k,j}$) resulta em um parâmetro $l$ ($w_{k,j} \times x_{k,j} = l$). Os autores concluíram que a sincronização realizada com as consultas para formação dos vetores de entrada foi mais rápida, porém, a quantidade de informação trocada entre as \textit{Tree Parity Machines} foi maior. Portanto, embora o tempo de sincronização seja menor, o tempo total da geração de chave pode ser maior do que a geração por meio de sincronização com entradas pseudoaleatórias.
+        
+        % Equação: Regra de Consulta baseada no estado atual da TPM
+        \begin{equation}
+            \label{eq:queryGen}
+            h_k = \frac{1}{\sqrt{N}} \times \displaystyle\sum_{l=1}^{L} (c_{k, +l} - c_{k, -l})
+        \end{equation}
+
+        % 6. allam2010improvement
+        Com o intuito de aumentar a segurança no procedimento de troca de chaves utilizando criptografia neural, Allam e Abbas \cite{allam2010improvement} propuseram uma técnica na qual transmissões com conteúdo falso são realizadas durante o processo de sincronização entre as \textit{Tree Parity Machines} (aqui chamadas de $A$ e $B$). Durante a sincronização, são enviadas mensagens errôneas -- baseadas nas distâncias estimadas entre os pesos sinápticos das redes neurais -- descritas pela Equação \eqref{eq:fakeMsg}. Isto faz com que uma terceira TPM ($C$), que possa estar interceptando pacotes com trocas de mensagens entre $A$ e $B$ (como em um ataque \textit{Man-in-the-Middle}\footnote{Ataque de interceptação de dados trocados entre duas partes.}, por exemplo), não consiga se sincronizar e, consequentemente, obter a chave que será gerada ao final do processo.
+        
+        % Equação: Mensagem baseada nas distâncias estimadas entre pesos sinápticos
+        \begin{equation}
+            \label{eq:fakeMsg}
+            \left | h_{k}^{A/B} \right | = \left | \displaystyle\sum_{n=1}^{N} (w_{k, n}^{A/B} \times x_{k, n}^{A/B}) \right |
+        \end{equation}
+
+        % Conclusão
+        Este trabalho objetivou a otimização dos parâmetros das TPMs utilizadas pela criptografia neural no procedimento de geração de chaves criptográficas. Também, propôs uma implementação da técnica na linguagem de programação C\footnote{Linguagem de programação compilada de uso geral criada em 1972 por Dennis Ritchie.} visando maior desempenho e tornando possível a comparação dos resultados obtidos pelas métricas do processo descrito na seção \ref{sec:proposta}.
+  
+    \section{Proposta}
+    \label{sec:proposta}
+        
+        A proposta deste trabalho, descrita pelo diagrama da Figura \ref{diag:proposta}, é implementar a estrutura da rede neural artificial \textit{Tree Parity Machine} baseada na proposta de Ruttor \cite{ruttor2007neural} utilizando a linguagem de programação C de tal forma que duas TPMs distintas, porém com as mesmas configurações, se convirjam com o objetivo de gerar uma chave criptográfica a partir de suas sincronizações mutuas.
+        
+        Este procedimento de criptografia neural será metrificado com a intenção de otimizar o processo a partir dos parâmetros requeridos. Os blocos utilizados no diagrama da Figura \ref{diag:proposta} para modularizar a implementação estão descritos detalhadamente a seguir: 
+        
+        % Figura: Diagrama em Blocos da Proposta
+        \input{figures/diag_proposta.tex}
+    
+        % Explicação dos blocos
+        \begin{itemize}
+            \item Parametrização:
+            Aquisição dos parâmetros necessários para instanciação das duas \textit{Tree Parity Machines} (\textit{K}, \textit{N}, \textit{L}, função de ativação e regra de aprendizado).
+                
+            \item Inicialização:
+            Procedimento no qual ocorre a instanciação de duas TPMs com os mesmos parâmetros \textit{K}, \textit{N}, \textit{L}, função de ativação e regra de aprendizado, porém com pesos sinápticos inicialmente distintos gerados pseudo-aleatoriamente.
+                
+            \item \textit{Tree Parity Machine A} / \textit{Tree Parity Machine B}:
+            \textit{Tree Parity Machines} devidamente instanciadas e inicializadas.
+                
+            \item Saída da TPM A ($\tau^A$) / Saída da TPM B ($\tau^B$):
+            Saída das TPMs ($\tau^{A/B}$) representada pela Equação \eqref{eq:tpmOutput}, onde $\sigma^{A/B}$ representa a saída dos \textit{K} neurônios da camada escondida dada pelas suas funções de ativação, $w^{A/B}_{k,n}$ é o vetor de pesos sinápticos e $x^{A/B}_{k,n}$ representa o vetor de entrada.
+            
+        \end{itemize}
+        
+        % Equação: Saída da Tree Parity Machine
+        \begin{equation}
+            \label{eq:tpmOutput}
+            \tau^{A/B} = \displaystyle\prod_{k=1}^{K} \sigma_{k}^{A/B} = \displaystyle\prod_{k=1}^{K} \sigma \left (\displaystyle\sum_{n=1}^{N} w_{k,n}^{A/B} \times x_{k,n}^{A/B} \right )
+        \end{equation}
+    
+        \begin{itemize}
+            
+            \item Geração do vetor de entrada:
+            Geração pseudo-aleatória de um vetor de $(K \times N) + K$ posições que será utilizado como entrada para ambas as redes neurais artificiais.
+                
+            \item Regra de Aprendizado:
+            Aplicação da regra de aprendizado parametrizada para atualizar os pesos sinápticos para a próxima época de treinamento. As regras de aprendizado utilizadas estão descritas nas equações a seguir, sendo o aprendizado \textit{Hebbian} representado pela Equação \eqref{eq:hebbian}, \textit{Anti-Hebbian} pela Equação \eqref{eq:antiHebbian} e \textit{Random Walk} descrito pela Equação \eqref{eq:randomWalk}, nos quais a função \textit{$\Theta(x)$} é uma função do tipo sinal, $W^{A/B}_{k,n}$ é o novo peso sináptico atualizado com a regra de aprendizado, $w^{A/B}_{k,n}$ é o peso sináptico atual, $x_{k,n}$ é um elemento do vetor de entrada referente ao peso sináptico que será atualizado e $\tau^{A/B}$ representa a saída da rede.
+            
+        \end{itemize}
+            
+        % Equação: Regra de Aprendizado Hebbian
+        \begin{equation}
+            \label{eq:hebbian}
+            W_{k,n}^{A/B} = w_{k,n}^{A/B} + x_{k,n} \tau^{A/B} \Theta(\tau^{A/B} \sigma_{k}^{A/B}) \Theta(\tau^{A} \tau^{B})
+        \end{equation}
+            
+        % Equação: Regra de Aprendizado Anti-Hebbian
+        \begin{equation}
+            \label{eq:antiHebbian}
+            W_{k,n}^{A/B} = w_{k,n}^{A/B} - x_{k,n} \sigma_{k}^{A/B} \Theta(\tau^{A/B} \sigma_{k}^{A/B}) \Theta(\tau^{A} \tau^{B})
+        \end{equation}
+            
+        % Equação: Regra de Aprendizado Random Walk
+        \begin{equation}
+            \label{eq:randomWalk}
+            W_{k,n}^{A/B} = w_{k,n}^{A/B} + x_{k,n} \Theta(\tau^{A/B} \sigma_{k}^{A/B}) \Theta(\tau^{A} \tau^{B})
+        \end{equation}
+
+        % Equação: Função Sinal
+        \begin{equation}
+            \label{eq:signal}
+            \Theta (x) :=
+            \begin{cases}
+                -1 & \quad \text{if } x \leq 0 \\
+                +1 & \quad \text{if } x > 0
+            \end{cases}
+        \end{equation}
+        
+        \begin{itemize}
+            \item Chave Gerada:
+            Como os vetores de pesos sinápticos de ambas as redes se mostraram idênticos, significa que as redes convergiram. Logo a chave criptográfica gerada corresponde ao vetor de pesos sinápticos das \textit{Tree Parity Machines} (excluindo o \textit{bias} de cada neurônio) aplicados à função sinal (\textit{$\Theta(x)$}).
+        \end{itemize}
+        
+    \section{Experimentos}
+    \label{sec:experimentos}
+  
+        \subsection{Metodologia}
+        \label{subsec:metodologia}
+            
+            % Overview
+            Com a finalidade de extrair o maior desempenho possível sobre o processo de geração de chaves criptográficas por meio da criptografia neural, experimentos foram realizados com diferentes configurações de \textit{Tree Parity Machines} a fim de analisar as influências individuais dos parâmetros de inicialização, assim sendo capaz de obter os parâmetros ótimos das RNAs.
+            
+            \clearpage
+            \newpage
+            
+            Os parâmetros analisados foram:
+            % Parâmetros de Analise
+            \begin{enumerate}
+                \item Variação de \textit{K}: Número de neurônios na camada escondida.
+            
+                \item Variação de \textit{N}: Número de entradas para cada neurônio da camada escondida.
+                
+                \item Variação de \textit{L}: Faixa de valores discretos possíveis para os pesos sinápticos.
+                
+                \item Regra de Aprendizado:
+                \begin{enumerate}
+                    \item \textit{Hebbian}*
+                    \item \textit{Anti-Hebbian}*
+                    \item \textit{Random-Walk}*
+                \end{enumerate}
+                * Descrito detalhadamente na seção \ref{sec:proposta}.
+
+                \item Função de Ativação: As funções de ativação utilizadas estão descritas nas equações a seguir, sendo elas:
+                
+                \begin{enumerate}
+                    \item Sinal:
+                        \begin{equation}
+                            \label{eq:act_func_signal}
+                            \textit{$\varphi(x)$} :=
+                            \begin{cases}
+                                -1 & \quad \text{if } x \leq 0 \\
+                                +1 & \quad \text{if } x > 0
+                            \end{cases}
+                        \end{equation}
+                    
+                    \item Sigmóide:
+                        \begin{equation}
+                            \label{eq:act_func_sigmoid}
+                            \textit{$\varphi(x)$} = \frac{1}{1 + e^{-x}}
+                        \end{equation}
+                    
+                    \item Linear:
+                        \begin{equation}
+                            \label{eq:act_func_linear}
+                            \textit{$\varphi(x)$} = x
+                        \end{equation}
+                    
+                    \item Tangente Hiperbólica (tanh):
+                        \begin{equation}
+                            \label{eq:act_func_tanh}
+                            \textit{$\varphi(x)$} = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+                        \end{equation}
+                
+                \end{enumerate}
+            \end{enumerate}
+            
+            % Consistência nos Dados
+            Para garantir consistência nos resultados obtidos e compatibilidade entre todos os experimentos realizados, o gerador de números pseudo-aleatórios teve sua semente de geração fixada em \textit{962611861}. Além disso, cada configuração de \textit{Tree Parity Machine} utilizada nos experimentos gerou 100 chaves binárias consecutivas de tamanho notavelmente superior quando comparadas às chaves utilizadas nos algoritmos criptográficos comumente utilizados com o objetivo de salientar os resultados e tornar suas visualizações mais inteligíveis.
+            
+            % Métricas
+            As métricas finais coletadas nas gerações sucessivas de chaves foram obtidas por meio de uma média aritmética dos valores obtidos no processo de geração de cada uma das 100 chaves.
+
+            % Métricas
+            As métricas designadas para análise foram:
+            \begin{enumerate}
+                \item Chaves Repetidas:
+                    Número de chaves repetidas no conjunto gerado juntamente com a probabilidade de ocorrência de cada chave ($P_k$), descrita pela Equação \eqref{eq:probabilidadeChave}.
+                    
+                    % Equação: Probabilidade de geração de 1 chave
+                    \begin{equation}
+                        \label{eq:probabilidadeChave}
+                        P_k [\%] = \frac{1}{2^{(K \times N)}} \times 100
+                    \end{equation}
+                
+                \item Épocas de Treinamento:
+                    Números médio, máximo e mínimo de épocas de treinamento necessárias para que ocorra a sincronização entre as duas \textit{Tree Parity Machines} envolvidas no processo de geração das chaves.
+                
+                \item Volume de Dados:
+                    O volume de dados ($V$) trocados entre as duas RNAs (em \Bytes) em função da média de épocas de treinamento (\textit{epochs\_avg}) e dos parâmetros da TPM, descrito pela Equação \eqref{eq:dataVol}. Bastante relevante para analisar situações onde as duas \textit{Tree Parity Machines} não se encontram no mesmo sistema, ou até mesmo na mesma aplicação.
+                    
+                    % Equação: Volume de Informação Trocada
+                    \begin{equation}
+                        \label{eq:dataVol}
+                        V [\Bytes] = \frac{epochs\_avg \times [(K \times N) + K + 2]}{8}
+                    \end{equation}
+                    
+                \item Comprimento do vetor de entrada:
+                    O número de elementos no vetor de entrada ($I_{[K,N}$) é o resultado da soma de todas as entradas de cada neurônio da camada escondida ($K \times N$) com o acréscimo de uma entrada para o \textit{bias} de cada um dos neurônios (\textit{K}).
+                    
+                    % Equação: Comprimento do vetor de entrada
+                    \begin{equation}
+                        \label{eq:inputArraySize}
+                        I_{[K, N]} = (K \times N) + K
+                    \end{equation}
+           
+                \item Tempo de Geração:
+                    Tempos médio, máximo e mínimo tal como o desvio padrão do processo de geração de cada uma das 100 chaves separadamente, desde a inicialização das \textit{Tree Parity Machines} até o alcance da sincronização.
+                    
+                    Para que haja coesão nas métricas temporais, todos os experimentos foram executados na mesma máquina cujo a configuração é:
+                    
+                    \begin{itemize}
+                        \item Sistema Operacional: Xubuntu
+                        \item Processador: Intel(R) Core(TM) i7-5500U
+                        \item Clock Rate: 2.40 GHz
+                        \item Arquitetura: x86\_64
+                        \item Núcleos: 4
+                        \item Memória RAM: 16 GB
+                    \end{itemize}
+
+            \end{enumerate}
+
+            % Regras de Aprendizado / Funções de Ativação (Experimento Delta)
+            Para aferir a influência das 3 diferentes regras de aprendizado e das 4 diferentes funções de ativação, os parâmetros \textit{K}, \textit{N} e \textit{L} foram fixados em, respectivamente, 32, 32 e 5. Logo cada uma das 100 chaves criptográficas binárias geradas possuem um tamanho imutável de 1Kib (1Kib $\equiv$ 1.024 \bits).
+            
+            % Experimento Delta
+            A rotina de ensaio das 12 possíveis combinações entre regras de aprendizado e funções de ativação que foram utilizados no experimento foi intitulada ``Experimento 1'' e é representada na Figura \ref{fig:experimentoDelta}.
+
+            % Figura: Experimento Delta
+            \input{figures/fig_experimentoDelta.tex}
+
+            % Fixação da regras de aprendizado e função de ativação
+            Após a realização do Experimento 1, foram analisados os resultados e foram identificados, para esta implementação, os 3 conjuntos de regra de aprendizado e função de ativação que obtiveram maior desempenho relativo na geração de chaves (resultado discutido detalhadamente na seção \ref{subsubsec:experimentoDelta}). Logo, nas rotinas implementadas para análise dos parâmetros \textit{K}, \textit{N} e \textit{L}, as combinações tidas como mais eficientes foram utilizadas nas estruturas de análise dos mesmos.
+
+            % K e N (Experimento Gamma)
+            Para as análises de \textit{K} e \textit{N}, o experimento realizado foi denominado ``Experimento 2'' e está representado na Figura \ref{fig:experimentoGamma}. Nesta rotina, \textit{L} foi fixado em 5 e um conjunto finito de pares de valores inteiros ( $C_i [k_i, n_i]$ ) onde seus produtos resultam em 1Kib foi atribuído aos valores dos dois parâmetros.
+
+            % Figura: Experimento Gamma
+            \input{figures/fig_experimentoGamma.tex}
+
+            % Objetivo do Experimento gamma
+            O objetivo de rodar a criptografia neural utilizando o conjunto \textit{C} é analisar a sensibilidade da implementação ao gerar chaves com exatamente o mesmo tamanho (1Kib) porém em configurações diversas. Com isso, espera-se concluir a relação entre número de entradas e número de neurônios artificiais para gerar chaves equivalentes entre si.
+            
+            % L (Experimento Epsilon)
+            Já na análise de \textit{L}, o parâmetro foi variado entre 2 e 50 enquanto os demais foram fixados em seus valores ótimos. Esta sequencia de execuções, representada na Figura \ref{fig:experimentoEpsilon}, foi denominada ``Experimento 3''.
+            
+            % Figura: Experimento Epsilon
+            \input{figures/fig_experimentoEpsilon.tex}
+
+            % Otimização
+            Com os parâmetros individualmente analisados, é possível otimizar os parâmetros de geração das chaves a partir do tamanho de chave requerido.
+            
+            Para asseverar a eficiência do método, foram gerados dois grupos de chaves criptográficas binárias de 10Kib (tamanho 10 vezes maior do que o tamanho utilizado nos demais experimentos). Um grupo com 1.000 (mil) chaves e outro com 10.000 (dez mil) chaves. Este procedimento foi alcunhado ``Experimento 4'' e é discutido na seção \ref{subsubsec:experimentoOmega}.
+
+        \subsection{Resultados}
+        \label{subsec:resultados}
+
+            % Organização dos Resultados
+            Com o objetivo de facilitar o entendimento e a compreensão dos resultados dos experimentos executados, as discussões foram divididas como sendo uma subseção referente a cada um dos 4 experimentos realizados conforme a seguinte distribuição:
+
+            \begin{itemize}
+                \item Experimento 1 (Seção \ref{subsubsec:experimentoDelta})
+                \item Experimento 2 (Seção \ref{subsubsec:experimentoGamma})
+                \item Experimento 3 (Seção \ref{subsubsec:experimentoEpsilon})
+                \item Experimento 4 (Seção \ref{subsubsec:experimentoOmega})
+            \end{itemize}
+
+            % Experimento Delta
+            \subsubsection{Experimento 1}
+            \label{subsubsec:experimentoDelta}
+
+                % Configurações Descartadas
+                Na análise dos resultados obtidos ao fim do Experimento 1 (Figura \ref{fig:experimentoDelta}), 5 das 12 configurações possíveis entre regras de aprendizado e funções de ativação foram descartadas das avaliações. Dois motivos foram responsáveis pela rejeição, o primeiro foi o fato das \textit{Tree Parity Machines} em duas das cinco configurações descartadas divergirem, logo não atingindo o sincronismo e consequentemente não gerando as chaves. O segundo foi que, em três configurações, embora as redes alcançassem o sincronismo e gerassem as chaves, todas as 100 chaves geradas eram iguais com todos os 1.024 \bits em 1 ou em 0, assim inviabilizando sua utilização. As configurações descartadas juntamente com o motivo de suas rejeições estão descritos na Tabela \ref{tab:configuracoesDescartadasDelta}.
+
+                % Tabela: Configurações descartadas no experimento Delta
+                \input{tables/tab_configuracoesDescartadasDelta.tex}
+            
+                % Zero chaves repetidas nos 7 conjuntos válidos
+                Levando em consideração as 7 configurações válidas, não houveram ocorrências de chaves repetidas em nenhum dos conjuntos de 100 chaves criptográficas binárias geradas por cada uma destas 7 configurações. A partir dos dados gerados nos conjuntos em questão foram analisadas as métricas propostas na seção \ref{subsec:metodologia}.
+                
+                % Representação visual dos resultados
+                Para ilustrar os resultados, as métricas coletadas são dispostas na Tabela \ref{tab:resultsDelta} e visualmente representadas nos gráficos das Figuras \ref{graph:epochsResultsDelta}, \ref{graph:timeResultsDelta} e \ref{graph:dataVolResultsDelta}. Logo em seguida os resultados são comentados. 
+                
+                %\clearpage
+                %\newpage
+                
+                % Tabela: Resultados do Experimento Delta
+                \input{tables/tab_resultsDelta.tex}
+                
+                % Graphic: Analise de épocas de treinamento no Experimento Delta
+                \input{graphics/graph_epochsResultsDelta.tex}
+            
+                % Graphic: Análise de tempo nos resultados do Experimento Delta
+                \input{graphics/graph_timeResultsDelta.tex}
+                
+                % Graphic: Análise de volume de dados nos resultados do Experimento Delta
+                \input{graphics/graph_dataVolResultsDelta.tex}
+
+                % Abordagem utilizada de combinação ótima
+                A abordagem utilizada para definir a combinação ótima entre regra de aprendizado e função de ativação foi atingir a maior eficiência possível no processo de geração. Não foram levados em consideração fatores como precauções de segurança como, por exemplo, prevenção aos ataques tratados na seção \ref{subsec:trabalhosFuturos}.
+                
+                % Combinação ótima
+                Analisando os resultados obtidos neste experimento, pôde-se afirmar que, para esta aplicação, as 3 combinações de função de ativação e regra de aprendizado que se mostraram mais eficiente foram: [sinal, \textit{Anti-Hebbian}], [\textit{linear}, \textit{Anti-Hebbian}] e [sigmóide, \textit{Anti-Hebbian}]. Isto porque estes conjuntos demandaram menos épocas de treinamento para sincronizar, fazendo com que menos dados fossem trocados entre as duas \textit{Tree Parity Machines} e, consequentemente, que seus tempos de execução fossem menores do que as demais configurações, atingindo assim uma maior eficiência no processo.
+                
+                % Regra de Aprendizado ótima
+                Uma vez que todas as três combinações que obtiveram maior desempenho no processo de geração das chaves utilizam a regra de aprendizado \textit{Anti-Hebbian}, pode-se concluir que esta é a regra considerada ótima para esta implementação.
+            
+            % Experimento Gamma
+            \subsubsection{Experimento 2}
+            \label{subsubsec:experimentoGamma}
+            
+                % Configurações descartadas
+                Após a execução, duas das três combinações de funções de ativação com regra de aprendizado foram descartadas das próximas análises. Os dois motivos responsáveis por esta ação foram os mesmos encontrados no Experimento 1, sendo eles, a divergência entre as redes neurais artificiais em determinadas configurações de \textit{K} e \textit{N} ou a geração das 100 chaves idênticas com os 1.024 \bits em 1 ou em 0. As configurações descartadas juntamente com o motivo de suas rejeições estão descritas na Tabela \ref{tab:configuracoesDescartadasGamma}.
+                
+                % Tabela: Configurações descartadas no experimento Gamma
+                \input{tables/tab_configuracoesDescartadasGamma.tex}
+                
+                % Combinação ótima de regra de função de ativação e regras de aprendizado
+                Foi constatado que o conjunto [sinal, \textit{Anti-Hebbian}] se mostrou ótimo para esta implementação. Isto se deu ao fato do conjunto apresentar o menor tempo de geração por chave, e ao mesmo tempo ser resiliente às 11 diferentes combinações de \textit{K} e \textit{N} presentes no conjunto \textit{C} que resultam em chaves de 1Kib propostas pelo Experimento 2.
+                
+                % Análise de K e N
+                Para obter a proporção ótima entre os parâmetros \textit{K} e \textit{N}, a rotina do Experimento 2 foi aplicada utilizando a regra de aprendizado \textit{Anti-Hebbian} e a função de ativação sinal. Os resultados estão dispostos na Tabela \ref{tab:resultsGamma} e nos gráficos das Figuras \ref{graph:epochsResultsGamma}, \ref{graph:timeResultsGamma} e \ref{graph:dataVolResultsGamma}.
+                
+                % Tabela: Resultados do Experimento Gamma
+                \input{tables/tab_resultsGamma.tex}
+                
+                % Graph: Análise do número de épocas com desvio padrão no Experimento Gamma
+                \input{graphics/graph_epochsResultsGamma.tex}
+                
+                % Graph: Análise do tempo de geração por chave com desvio padrão no Experimento Gamma
+                \input{graphics/graph_timeResultsGamma.tex}
+                
+                % Graph: Análise do volume de dados no Experimento Gamma
+                \input{graphics/graph_dataVolResultsGamma.tex}
+
+                % Similaridade entre [1,1.024] e [1.024,1]
+                Levando em consideração o número de épocas para sincronizar, ambos os pares [1, 1.024] e [1.024, 1] obtiveram o mesmo desempenho. Entretanto, pode-se concluir que os valores de \textit{K} e \textit{N} que se mostraram mais eficientes foram $K = 1$ e $N = 1.024$.
+                
+                % Justificativa da escolha de [1,1.024]
+                Quando o tempo de geração individual das chaves e o volume de dados trocados entre as duas redes neurais artificiais são analisados, é possível constatar que quanto maior o número de neurônios na camada escondida, maior o tempo de geração e também do volume de dados trocados.
+                
+                % Explicação da influência do \textit{bias}
+                Este comportamento é explicado pela adição do \textit{bias} em cada neurônio da camada escondida. Embora as chaves geradas possuam os mesmos tamanhos (1Kib), os vetores de entrada que são utilizados no treinamento das \textit{Tree Parity Machines} têm seus tamanhos variados dependendo do número de neurônios na camada escondida uma vez que é necessário gerar uma entrada para cada \textit{bias} além do número de entradas. A comparação dos cálculos é demonstrada pelas Equações \eqref{eq:inputArray1_1.024} e \eqref{eq:inputArray1.024_1}.
+                
+                % Equação: Tamanho do vetor de entrada [1,1.024]
+                \begin{equation}
+                    \label{eq:inputArray1_1.024}
+                    I_{[1, 1.024]} = (1.024 \times 1) + 1 = 1.025
+                \end{equation}
+
+                % Equação: Volume de Informação Trocada [1.024,1]
+                \begin{equation}
+                    \label{eq:inputArray1.024_1}
+                    I_{[1.024, 1]} = (1 \times 1.024) + 1.024 = 2.048
+                \end{equation}
+                
+                A mesma conduta é identificada no cálculo do volume de dados. Esta está representada nas Equações \eqref{eq:dataVol1_1.024} e \eqref{eq:dataVol1.024_1}.
+                
+                % Equação: Volume de Informação Trocada [1,1.024]
+                \begin{equation}
+                    \label{eq:dataVol1_1.024}
+                    V_{[1, 1.024]} = \frac{15 \times [(1 \times 1.024) + 1 + 2]}{8} = 1.925 [B]
+                \end{equation}
+
+                % Equação: Volume de Informação Trocada [1.024,1]
+                \begin{equation}
+                    \label{eq:dataVol1.024_1}
+                    V_{[1.024, 1]} = \frac{15 \times [(1.024 \times 1) + 1.024 + 2]}{8} = 3.843 [B]
+                \end{equation}
+
+                % Fixação de K em 1
+                Neste ponto pode-se concluir que uma \textit{Tree Parity Machine} com um neurônio na camada escondida se torna mais eficiente no que se refere ao tempo de geração de chaves. Por conseguinte, o parâmetro \textit{K} foi fixado em 1.
+                
+                % N como tamanho da chave
+                Como \textit{K} foi fixado em 1 e o tamanho da chave gerada pela criptografia neural é obtido por meio do produto entre o número de neurônios na camada escondida com o número de entradas de cada neurônio (excluindo o \textit{bias}). Tem-se que o valor de \textit{N} será correspondente ao tamanho da chave a ser gerada.
+                
+            % Experimento Epsilon
+            \subsubsection{Experimento 3}
+            \label{subsubsec:experimentoEpsilon}
+
+                Na execução das iterações propostas no experimento, os valores de \textit{L} foram variados de 2 à 50, enquanto os demais parâmetros foram fixados nos resultados ótimos aferidos pelos experimentos anteriores. São estes parâmetros: \textit{K} = 1, \textit{N} = 1.024, função de ativação sinal e regra de aprendizado \textit{Anti-Hebbian}.
+                
+                Após a realização do ensaio, a influência do parâmetro \textit{L} no processo de criptografia neural nas condições citadas anteriormente foi representado de forma discreta no gráfico da Figura \ref{graph:experimentoEpsilon}.
+
+                % Graphic: Experimento Epsilon
+                \input{graphics/graph_experimentoEpsilon.tex}
+                
+                % Fixação de L em 2
+                Com os resultados do Experimento 3 é possível concluir que o parâmetro \textit{L} não interfere no desempenho do processo de geração de chaves criptográficas binárias para esta configuração de \textit{Tree Parity Machine} alcançada. Tendo em vista esta situação, o parâmetro \textit{L} foi fixado em 2, que é o menor valor tangível para o mesmo.
+            
+            % Experimento Omega
+            \subsubsection{Experimento 4}
+            \label{subsubsec:experimentoOmega}
+            
+                % Estrutura ótima
+                Baseando-se nos experimentos anteriores, a estrutura que foi constituída ótima possui a seguinte parametrização:
+                
+                \begin{itemize}
+                    \item \textit{K}: 1
+                    \item \textit{N}: Tamanho da chave desejada
+                    \item \textit{L}: 2
+                    \item Função de Ativação: Sinal
+                    \item Regra de Aprendizado: \textit{Anti-Hebbian}
+                \end{itemize}
+                
+                % Figura: Estrutura ótima
+                % \input{figures/fig_optimal.tex}
+                
+                % Realização do experimento Omega
+                Com a configuração alcançada, os dois grupos de chaves propostos pelo Experimento 4 foram geradas, tal qual a coleta das métricas estudadas. Seus resultados foram gerados e estão representados pela Tabela \ref{tab:resultsOmega} e pelos gráficos das Figuras \ref{graph:epochsResultOmega} e \ref{graph:timeResultOmega}.
+                
+                % Tabela: Resultados do Experimento Omega
+                \input{tables/tab_resultsOmega.tex}
+
+                % Graph: Análise de épocas de treinamento no Experimento Omega
+                \input{graphics/graph_epochsResultOmega.tex}
+
+                % Graph: Análise do volume de dados no Experimento Omega
+                \input{graphics/graph_timeResultsOmega.tex}
+  
+    \section{Conclusão}
+    \label{sec:conclusao}
+    
+        % Informação
+        A partir da revolução industrial, o patrimônio intelectual vem sendo, cada vez mais, a propriedade mais valiosa no contexto empresarial. A ponto de que para a esmagadora maioria das instituições ativas, perder suas informações acarretaria em consequências calamitosas. Isto faz com que este bem tão precioso seja alvo dos afamados crimes cibernéticos, ataques que visam roubar ou inviabilizar estes dados.
+
+        % Segurança da informação / Criptografia / Segurança na chave
+        Neste contexto surge a segurança da informação com a finalidade de proteger estes dados. A SI têm como uma das principais ferramentas, a criptografia, que possibilita a troca de informações entre partes por meio de canais inseguros de comunicação. Inúmeros algoritmos de criptografia foram e são propostos visando proteger as informações de formas cada vez mais eficientes. Como os algoritmos mais populares e utilizados são \textit{open source}, é possível concluir que a segurança está na chave que é utilizada para encriptar os dados em suas utilizações.
+
+        % Problema
+        Estas chaves são normalmente geradas com base na entropia (eventos probabilísticos considerados pseudo-aleatórios) coletada do sistema. A necessidade de uma fonte abundante de entropia pode ser um problema para sistemas reduzidos, como por exemplo em sistemas embarcados. Além da geração da chave, a troca da mesma entre serviços pode levar tempo e ser um ponto de ataque para que um terceiro obtenha uma cópia.
+        
+        % Proposta
+        Baseando-se na proposta de Ruttor \cite{ruttor2007neural} que descreveu a troca e geração de chaves criptográficas binárias por meio de redes neurais artificiais do tipo \textit{Tree Parity Machine}, foi realizada uma implementação do mecanismo na linguagem C com o intuito de aferir o seu real desempenho. A partir desta implementação, 4 experimentos foram elaborados e realizados para que uma configuração de \textit{Tree Parity Machine} ideal seja alcançada.
+        
+        % Resultados
+        Como resultado geral, uma configuração ótima foi adotada. O aferimento da validade desta configuração foi que na geração sequencial de dois grupos de chaves criptográficas binárias de 10Kib (tamanho hiperbólico quando comparado ao tamanho das chaves comumente utilizadas), obteve-se um tempo médio de geração por chave de 14.080 microssegundos no grupo de mil chaves e de 14.016 microssegundos para o grupo de dez mil chaves. Além disso não houve ocorrência de chaves repetidas em nenhum dos dois conjuntos.
+        
+
+        \subsection{Trabalhos Futuros}
+        \label{subsec:trabalhosFuturos}
+        
+            % Estudar vulnerabilidade à ataques
+            No decorrer do estudo, foram identificados pontos que condescendem possíveis extensões na pesquisa. Um dos principais pontos a serem estudados seria a vulnerabilidade da estrutura alcançada aos ataques clássicos à este tipo de implementação. Em seguida, com os resultados obtidos, realizar uma criptoanálise e identificar falhas de segurança e, consequentemente, realizar possíveis melhorias na implementação atual para torná-la viável em ambientes inseguros.
+            Os principais ataques são:
+            \begin{itemize}
+                \item Ataque simples \cite{ruttor2006genetic}
+                \item Ataque geométrico \cite{klimov2002analysis}
+                \item Ataque de maioria \cite{ruttor2007neural}
+                \item Ataque genético \cite{ruttor2006genetic}\cite{klimov2002analysis}
+            \end{itemize}
+            
+            \clearpage
+            \newpage
+
+            % Feedback Mechanism
+            Outro ponto relevante a ser estudado seria implementar e analisar o desempenho de um mecanismo de realimentação (\textit{feedback mechanism}) nas redes neurais artificiais, como proposto por Ruttor \cite{ruttor2007neural}. Isto acarretaria em uma entrada secreta para cada neurônio na camada escondida que não seria transmitido entre as \textit{Tree Parity Machines}, aumentando a segurança do método proposto, diminuindo o tamanho dos vetores de entrada necessários e, consequentemente, diminuindo o volume de dados trocados entre as redes neurais artificiais.
+  
+    \bibliographystyle{sbc}
+    \bibliography{bibliografia}
+
+\flushend 
+\end{document}

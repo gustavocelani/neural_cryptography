@@ -1,0 +1,25 @@
+% Graphic: Experimento Epsilon
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			% title={Experimento Epsilon},
+			xlabel={Valor de \textit{L}},
+			ylabel={Épocas para sincronizar},
+			ymin=0, ymax=20,
+			xmin=0, xmax=52,
+			ymajorgrids=true,
+			xmajorgrids=true,
+			grid style=dashed,
+			height=5cm,
+			width=11cm
+		]
+		 
+		\addplot[color=black, solid, thick, ycomb, mark=*]
+			file {plotdata/epsilon.dat};
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Análise da influência de \textit{L} nas condições alcançadas.}
+	\label{graph:experimentoEpsilon}
+\end{figure}

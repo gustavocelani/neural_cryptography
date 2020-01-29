@@ -1,0 +1,86 @@
+% Figura: Experimento Delta
+\begin{figure}[H]
+	\centering
+		\begin{tikzpicture}
+
+			% Styles
+			\tikzset{
+				block1/.style={draw, align=left, thick, rectangle, text width=1.5cm, minimum height=1.75cm},
+				block2/.style={draw, align=center, thick, rectangle, text width=2.2cm, minimum height=0.8cm},
+				block3/.style={draw, align=center, thick, rectangle, text width=2.4cm, minimum height=0.4cm},
+			}
+
+			% Layer 1 Nodes
+			\node[block1] (knl) {\textit{K} = 32\\\textit{N} = 32\\\textit{L} = 5};
+
+			% Layer 2 Nodes
+			\node[block2, above right=1cm and 2cm of knl]    (sgn) {Sinal};
+			\node[block2, above right=-0.5cm and 2cm of knl] (lin) {Linear};
+			\node[block2, below right=-0.5cm and 2cm of knl] (sgm) {Sigmóide};
+			\node[block2, below right=1cm and 2cm of knl]    (tan) {Tanh};
+			
+			% Layer 3 Nodes
+			\node[block3, right=6.4cm of knl] (a) {\textit{Anti-Hebbian}};
+			\node[block3, above=1cm  of a]    (h) {\textit{Hebbian}};
+			\node[block3, below=1cm  of a]    (r) {\textit{Randon-Walk}};
+			
+			% Arrows
+			\draw[-stealth, thick] (knl.east) -- (sgn.west);
+			\draw[-stealth, thick] (knl.east) -- (lin.west);
+			\draw[-stealth, thick] (knl.east) -- (sgm.west);
+			\draw[-stealth, thick] (knl.east) -- (tan.west);
+			
+			\draw[-, thick] (sgn.east) -- (a.west);
+			\draw[-, thick] (lin.east) -- (a.west);
+			\draw[-, thick] (sgm.east) -- (a.west);
+			\draw[-, thick] (tan.east) -- (a.west);
+			
+			\draw[-, thick] (sgn.east) -- (h.west);
+			\draw[-, thick] (lin.east) -- (h.west);
+			\draw[-, thick] (sgm.east) -- (h.west);
+			\draw[-, thick] (tan.east) -- (h.west);
+			
+			\draw[-, thick] (sgn.east) -- (r.west);
+			\draw[-, thick] (lin.east) -- (r.west);
+			\draw[-, thick] (sgm.east) -- (r.west);
+			\draw[-, thick] (tan.east) -- (r.west);
+
+			% Layer 3 Nodes
+% 			\node[block3, right=1.5cm of sgn]  (a1) {\textit{Anti-Hebbian}};
+% 			\node[block3, above=0.1cm  of a1]  (h1) {\textit{Hebbian}};
+% 			\node[block3, below=0.1cm  of a1]  (r1) {\textit{Randon-Walk}};
+
+% 			\node[block3, right=1.5cm of lin]    (a2) {\textit{Anti-Hebbian}};
+% 			\node[block3, above=0.1cm  of a2]  (h2) {\textit{Hebbian}};
+% 			\node[block3, below=0.1cm  of a2]  (r2) {\textit{Randon-Walk}};
+
+% 			\node[block3, right=1.5cm of sgm]    (a3) {\textit{Anti-Hebbian}};
+% 			\node[block3, above=0.1cm  of a3]  (h3) {\textit{Hebbian}};
+% 			\node[block3, below=0.1cm  of a3]  (r3) {\textit{Randon-Walk}};
+
+% 			\node[block3, right=1.5cm of tan]    (a4) {\textit{Anti-Hebbian}};
+% 			\node[block3, above=0.1cm  of a4]  (h4) {\textit{Hebbian}};
+% 			\node[block3, below=0.1cm  of a4]  (r4) {\textit{Randon-Walk}};
+
+			% Arrows
+% 			\draw[-stealth, thick] (knl.east) -- (sgn.west);
+% 			\draw[-stealth, thick] (knl.east) -- (lin.west);
+% 			\draw[-stealth, thick] (knl.east) -- (sgm.west);
+% 			\draw[-stealth, thick] (knl.east) -- (tan.west);
+% 			\draw[-stealth, thick] (sgn.east) -- (h1.west);
+% 			\draw[-stealth, thick] (sgn.east) -- (a1.west);
+% 			\draw[-stealth, thick] (sgn.east) -- (r1.west);
+% 			\draw[-stealth, thick] (lin.east) -- (h2.west);
+% 			\draw[-stealth, thick] (lin.east) -- (a2.west);
+% 			\draw[-stealth, thick] (lin.east) -- (r2.west);
+% 			\draw[-stealth, thick] (sgm.east) -- (h3.west);
+% 			\draw[-stealth, thick] (sgm.east) -- (a3.west);
+% 			\draw[-stealth, thick] (sgm.east) -- (r3.west);
+% 			\draw[-stealth, thick] (tan.east) -- (h4.west);
+% 			\draw[-stealth, thick] (tan.east) -- (a4.west);
+% 			\draw[-stealth, thick] (tan.east) -- (r4.west);
+
+		\end{tikzpicture}
+	\caption{Experimento 1.}
+	\label{fig:experimentoDelta}
+\end{figure}

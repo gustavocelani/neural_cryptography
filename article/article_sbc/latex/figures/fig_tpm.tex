@@ -1,0 +1,89 @@
+% Figura: Tree Parity Machine
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		
+		% Styles
+		\tikzset{input/.style={circle,draw,thick,text width=0.05cm, align=center},line/.style={-latex}};
+		\tikzset{hneuron/.style={circle,draw,thick,text width=0.6cm, align=center},line/.style={-latex}};
+		
+		% Hidden Layer Nodes
+		\node[hneuron]                    (h2) {$\sigma_{(\sum)}$};
+		\node[hneuron, above=1.3cm of h2] (h1) {$\sigma_{(\sum)}$};
+		\node[hneuron, below=1.3cm of h2] (h3) {$\sigma_{(\sum)}$};
+		
+		% Output Layer Nodes
+		\node[hneuron, right=2cm of h2] (o) {\textit{$\prod$}};
+		
+		% Input Layer Nodes
+		\node[input] at (-2,2.9)  (i1)  {};
+		\node[input] at (-2,2.4)  (i2)  {};
+		\node[input] at (-2,1.9)  (i3)  {};
+		\node[input] at (-2,1.4)  (i4)  {};
+		\node[input] at (-2,0.7)  (i5)  {};
+		\node[input] at (-2,0.2)  (i6)  {};
+		\node[input] at (-2,-0.3) (i7)  {};
+		\node[input] at (-2,-0.8) (i8)  {};
+		\node[input] at (-2,-1.5) (i9)  {};
+		\node[input] at (-2,-2)   (i10) {};
+		\node[input] at (-2,-2.5) (i11) {};
+		\node[input] at (-2,-3)   (i12) {};
+		
+		% Label Nodes
+		\node[thick, right=0.75cm of o]  (ol)   {$\tau$};
+		\node[thick, left=0.75cm of i1]  (il1)  {$x_{11}$};
+		\node[thick, left=0.75cm of i2]  (il2)  {$x_{12}$};
+		\node[thick, left=0.75cm of i3]  (il3)  {$x_{13}$};
+		\node[thick, left=0.75cm of i4]  (il4)  {$x_{14}$};
+		\node[thick, left=0.75cm of i5]  (il5)  {$x_{21}$};
+		\node[thick, left=0.75cm of i6]  (il6)  {$x_{22}$};
+		\node[thick, left=0.75cm of i7]  (il7)  {$x_{23}$};
+		\node[thick, left=0.75cm of i8]  (il8)  {$x_{24}$};
+		\node[thick, left=0.75cm of i9]  (il9)  {$x_{31}$};
+		\node[thick, left=0.75cm of i10] (il10) {$x_{32}$};
+		\node[thick, left=0.75cm of i11] (il11) {$x_{33}$};
+		\node[thick, left=0.75cm of i12] (il12) {$x_{34}$};
+		\node[thick] at (0.8,2.1)        ()     {$\sigma_1$};
+		\node[thick] at (0.8,0.2)        ()     {$\sigma_2$};
+		\node[thick] at (0.8,-2.1)       ()     {$\sigma_3$};
+		\node[thick] at (-1,2.85)        ()     {$w_{11}$};
+		\node[thick] at (-1,1.4)         ()     {$w_{14}$};
+		\node[thick] at (-1,0.6)         ()     {$w_{21}$};
+		\node[thick] at (-1,-0.8)        ()     {$w_{24}$};
+		\node[thick] at (-1,-1.6)        ()     {$w_{31}$};
+		\node[thick] at (-1,-3)          ()     {$w_{34}$};
+		
+		% Arrows
+		\draw[-stealth, thick] (i1)   -- (h1);
+		\draw[-stealth, thick] (i2)   -- (h1);
+		\draw[-stealth, thick] (i3)   -- (h1);
+		\draw[-stealth, thick] (i4)   -- (h1);
+		\draw[-stealth, thick] (i5)   -- (h2);
+		\draw[-stealth, thick] (i6)   -- (h2);
+		\draw[-stealth, thick] (i7)   -- (h2);
+		\draw[-stealth, thick] (i8)   -- (h2);
+		\draw[-stealth, thick] (i9)   -- (h3);
+		\draw[-stealth, thick] (i10)  -- (h3);
+		\draw[-stealth, thick] (i11)  -- (h3);
+		\draw[-stealth, thick] (i12)  -- (h3);
+		\draw[-stealth, thick] (h1)   -- (o);
+		\draw[-stealth, thick] (h2)   -- (o);
+		\draw[-stealth, thick] (h3)   -- (o);
+		\draw[-stealth, thick] (o)    -- (ol);
+		\draw[-stealth, thick] (il1)  -- (i1);
+		\draw[-stealth, thick] (il2)  -- (i2);
+		\draw[-stealth, thick] (il3)  -- (i3);
+		\draw[-stealth, thick] (il4)  -- (i4);
+		\draw[-stealth, thick] (il5)  -- (i5);
+		\draw[-stealth, thick] (il6)  -- (i6);
+		\draw[-stealth, thick] (il7)  -- (i7);
+		\draw[-stealth, thick] (il8)  -- (i8);
+		\draw[-stealth, thick] (il9)  -- (i9);
+		\draw[-stealth, thick] (il10) -- (i10);
+		\draw[-stealth, thick] (il11) -- (i11);
+		\draw[-stealth, thick] (il12) -- (i12);
+		
+	\end{tikzpicture}
+	\caption{\textit{Tree Parity Machine} (TPM) parametrizada com \textit{K} = 3 e \textit{N} = 4.}
+	\label{fig:tpm}
+\end{figure}

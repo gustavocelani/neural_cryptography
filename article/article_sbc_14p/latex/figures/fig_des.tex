@@ -1,0 +1,54 @@
+% Figura: Data Encryptation Standard (DES)
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    
+        % Styles
+        \tikzset{block/.style={draw,thick,text width=2.2cm,minimum height=0.5cm,align=center},line/.style={-latex}};
+        \tikzset{dblock/.style={draw,thick,dashed,text width=2.5cm,minimum height=0.5cm,align=center},line/.style={-latex}};
+        \tikzset{lblock/.style={draw,thick,text width=2.5cm,minimum height=2.5cm,align=center},line/.style={-latex}};
+        \tikzset{XOR/.style={thick, draw, circle, append after command={ [shorten >=\pgflinewidth, shorten <=\pgflinewidth,] (\tikzlastnode.north) edge[thick] (\tikzlastnode.south) (\tikzlastnode.east) edge[thick] (\tikzlastnode.west) }, }, };
+
+        % Main Flow Nodes
+        \node[dblock]                   (pt)  {Texto Puro};
+        \node[block,  below=4mm of pt]  (ip)  {IP};
+        \node[block,  below=4mm of ip]  (f1)  {F1};
+        \node[block,  below=6mm of f1]  (f16) {F16};
+        \node[block,  below=4mm of f16] (fp)  {FP};
+        \node[dblock, below=4mm of fp]  (ct)  {Texto Criptografado};
+        
+        % Key Scheduler Nodes
+        \node[lblock] at (4.2cm,-2.5cm) (ks) {Escalonador de Chaves};
+        \node[dblock, right=1.35cm of pt] (ck) {Chave Criptográfica};
+        
+        % XOR
+        \node [XOR, left=of f1]  (xor1)  {};
+        \node [XOR, left=of f16] (xor16) {};
+        
+        % Main Flow Arrows
+        \draw[-stealth, thick] (pt)       to (ip);
+        \draw[-stealth, thick] (ip)       to (f1);
+        \draw[dotted, thick]   (f1)       to (f16);
+        \draw[-stealth, thick] (f16)      to (fp);
+        \draw[-stealth, thick] (fp)       to (ct);
+        \draw[-stealth, thick] (f1.west)  to (xor1.east);
+        \draw[-stealth, thick] (f16.west) to (xor16.east);
+        \draw[dotted, thick]   (xor1)     to (xor16);
+        \path[draw, -stealth, thick] (ip.west)     -- ++(-1.2cm,0) -- ++(0,0) -- (xor1.north);
+        \path[draw, -stealth, thick] (xor16.south) -- ++(0,0) -- ++(0,-0.77cm) -- (fp.west);
+        
+        % Key Scheduler Arrows
+        \draw[-stealth, thick] (ck) to (ks);
+        \draw[-stealth, thick] (2.8,-1.98) -- (f1.east);
+        \draw[-stealth, thick] (2.8,-3.17) -- (f16.east);
+        \draw[dotted, thick] (2, -2.1) -- (2,-3);
+                        
+        % Texts
+        \node[thick] at (5,-0.9) {56 \bits};
+        \node[thick] at (2,-1.6)    {48 \bits};
+        \node[thick] at (2,-3.5)    {48 \bits};
+
+    \end{tikzpicture}
+    \caption{Procedimento de encriptação utilizando DES.}
+    \label{fig:des}
+\end{figure}

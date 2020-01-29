@@ -1,0 +1,52 @@
+% Figura: Diffie-Hellman Protocol            
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        
+        % Styles
+        \tikzset{block/.style={draw,thick,text width=2.5cm,minimum height=0.5cm,align=center},line/.style={-latex}};
+        \tikzset{dblock/.style={draw,dashed,thick,text width=2.5cm,minimum height=0.5cm,align=center},line/.style={-latex}};
+        \tikzset{sdblock/.style={draw,dashed,thick,text width=1.6cm,minimum height=0.5cm,align=center},line/.style={-latex}};
+
+        % System A Nodes
+        \node[thick]                       (a)   {Sistema A};
+        \node[block, below=0.25cm of a]    (apg) {$[p, g]$};
+        \node[block, below=0.25cm  of apg] (apr) {Chave Privada $a$};
+        \node[block, below=0.25cm  of apr] (apv) {$A = g^a mod(p)$};
+        \node[block, below=0.25cm  of apv] (akg) {$K=g^{ab} mod(p)$};
+        \node[dblock, below=0.25cm of akg] (ak)  {Chave Secreta $K$};
+        
+        % System A Large Block
+        \draw[thick] (-1.45, -0.25) -- (-1.45, -4.74);
+        \draw[thick] (1.45, -0.25)  -- (1.45, -4.74);
+        \draw[thick] (-1.45, -0.25) -- (1.45, -0.25);
+        \draw[thick] (-1.45, -4.74) -- (1.45, -4.74);
+        
+        % System B Nodes
+        \node[thick, right=4.1cm  of a]    (b)   {Sistema B};
+        \node[block, below=0.25cm of b]    (bpg) {$[p, g]$};
+        \node[block, below=0.25cm  of bpg] (bpr) {Chave Privada $b$};
+        \node[block, below=0.25cm  of bpr] (bpv) {$B = g^b mod(p)$};
+        \node[block, below=0.25cm  of bpv] (bkg) {$K = g^{ab} mod(p)$};
+        \node[dblock, below=0.2cm of bkg]  (bk)  {Chave Secreta $K$};
+        
+        % System B Large Block
+        \draw[thick] (4.4, -0.26) -- (4.4, -4.74);
+        \draw[thick] (7.3, -0.26) -- (7.3, -4.74);
+        \draw[thick] (4.4, -0.26) -- (7.3, -0.26);
+        \draw[thick] (4.4, -4.74) -- (7.3, -4.74);
+        
+        % Middle Labels
+        \node[thick, align=center] at (2.9, -2.2) {Chave Pública\\Trocada};
+        \node[sdblock, right=0.625cm of ak] (skg)  {Chave Secreta\\Trocada};
+        
+        % Middle Arrows
+        \draw[-stealth, thick] (apv.east) -- (bkg.west);
+        \draw[-stealth, thick] (bpv.west) -- (akg.east);
+        \draw[dashed, thick]   (ak.east)  -- (skg.west);
+        \draw[dashed, thick]   (bk.west)  -- (skg.east);
+        
+    \end{tikzpicture}
+    \caption{Diffie-Hellman para troca de chaves em meio a canais inseguros.}
+    \label{fig:diffie_hellman}
+\end{figure}

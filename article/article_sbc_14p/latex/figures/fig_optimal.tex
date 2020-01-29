@@ -1,0 +1,59 @@
+% Figura: Estrutura ótima
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		
+		% Styles
+		\tikzset{iweight/.style={circle,draw,thick,text width=0.55cm, align=center},line/.style={-latex}};
+		\tikzset{lcomb/.style={circle,draw,thick,text width=1.2cm,minimum height=1cm,align=center},line/.style={-latex}};
+		\tikzset{tfunc/.style={rectangle,draw,thick,text width=1.3cm,minimum height=1cm,align=center},line/.style={-latex}};
+		
+		% Nodes
+		\node[lcomb] (s) {\textit{$\sum$}};
+		\node[tfunc, right=0.5cm of s] (t) {Função\\Sinal};
+		\node[above=0.4cm of s]        (b) {$b_0$};
+		\node[right=1.2 of t]          (o) {$\tau$};
+
+		% Weights
+		\node[iweight, left=0.5cm  of s]   (w2) {$w_{2}$};
+		\node[iweight, above=0.25cm of w2] (w1) {$w_{1}$};
+		\node[iweight, below=0.6cm of w2]  (wm) {$w_{n}$};
+		
+		% Input Text
+		\node[left=0.5 of w1] (x1) {$x_1$};
+		\node[left=0.5 of w2] (x2) {$x_2$};
+		\node[left=0.5 of wm] (xm) {$x_n$};
+		
+		% Arrows
+		\draw[-stealth, thick] (x1) -- (w1);
+		\draw[-stealth, thick] (x2) -- (w2);
+		\draw[-stealth, thick] (xm) -- (wm);
+		\draw[-stealth, thick] (b)  -- (s);
+		\draw[-stealth, thick] (w1) -- (s);
+		\draw[-stealth, thick] (w2) -- (s);
+		\draw[-stealth, thick] (wm) -- (s);
+		\draw[-stealth, thick] (s)  -- (t);
+		\draw[-stealth, thick] (t)  -- (o);
+		
+		% Dotted
+		\draw[dotted, thick] (-1.75, -0.6) -- (-1.75, -0.95);
+		\draw[dotted, thick] (-3.05, -0.6) -- (-3.05, -0.95);
+		
+		% Key Size Block
+		\draw[dotted, thick] (-3.4, 1.8)   -- (-3.4, -2.75);
+		\draw[dotted, thick] (-1, 1.8)     -- (-1, -2.75);
+		\draw[dotted, thick] (-3.4, -2.75) -- (-1, -2.75);
+		\draw[dotted, thick] (-3.4, 1.8)   -- (-1, 1.8);
+		\node[text width=2cm] at (-2.2, -2.5) {Comprimento};
+
+		% Tree Parity Machine Block
+		\draw[-, thick] (-4, 2.1)  -- (-4, -3.1);
+		\draw[-, thick] (3.7, 2.1)   -- (3.7, -3.1);
+		\draw[-, thick] (-4, -3.1) -- (3.7, -3.1);
+		\draw[-, thick] (-4, 2.1)  -- (3.7, 2.1);
+		\node[text width=5cm, align=center] at (1.3, -2.5) {\textit{Tree Parity Machine}\\\textit{Anti-Hebbian}};
+		
+	\end{tikzpicture}
+	\caption{Estrutura ótima.}
+	\label{fig:optimal}
+\end{figure}

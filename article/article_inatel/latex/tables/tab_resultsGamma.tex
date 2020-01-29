@@ -1,0 +1,38 @@
+% Tabela: Resultados do Experimento Gamma
+\begin{figure}[H]
+	\centering
+		\begin{tikzpicture}
+			
+		\node[thick, align=center] (table) {
+			\begin{tabular}{ |c|c|c|c|c|c|c|c|c|c|c| }
+				\hline
+				\multicolumn{7}{ |c| }{Resultados do Experimento 2} \\
+				\hline \hline
+				
+				\multicolumn{2}{ |c| }{ $C_i [k_i, n_i]$ } &
+				\multicolumn{2}{ |c| }{Épocas} &
+				\multicolumn{2}{ |c| }{Tempo [micro]} &
+				Volume de \\ \cline{1-6}
+
+				$k_i$ & $n_i$ & médio & $\sigma$ & médio & $\sigma$ & Dados [B]\\
+				\hline \hline
+				
+				1 & 1024 & 15 & 3.8 & 1188 & 308.8 & 1925 \\ \hline
+				2 & 512 & 16 & 3.1 & 1210 & 209.9 & 2056  \\ \hline
+				4 & 256 & 18 & 3.9 & 1263 & 305.2 & 2317  \\ \hline
+				8 & 128 & 18 & 3.6 & 1325 & 306.8 & 2455  \\ \hline
+				16 & 64 & 19 & 4.5 & 1570 & 427.9 & 2605  \\ \hline
+				32 & 32 & 21 & 5 & 1453 & 309 & 2645      \\ \hline
+				64 & 16 & 21 & 5.2 & 1575 & 350.4 & 2861  \\ \hline
+				128 & 8 & 23 & 5.4 & 1751 & 411 & 3317    \\ \hline
+				256 & 4 & 22 & 5.9 & 2010 & 413 & 3685    \\ \hline
+				512 & 2 & 23 & 5.4 & 2485 & 506.7 & 4421  \\ \hline
+				1024 & 1 & 15 & 3 & 2431 & 440.9 & 3843   \\ \hline
+				
+			\end{tabular}
+		};
+
+		\end{tikzpicture}
+	\caption{Tabela de resultados do Experimento 2.}
+	\label{tab:resultsGamma}
+\end{figure}

@@ -1,0 +1,30 @@
+% Graph: Análise de épocas de treinamento no Experimento Omega
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			% title={Análise de épocas de treinamento},
+			ylabel={Épocas de treinamento},
+			xlabel={Número da chave},
+			ymin=10, ymax=32,
+			xmin=0, xmax=1001,
+			ymajorgrids=true,
+			xmajorgrids=true,
+			grid style=dashed,
+			height=6cm,
+			width=14.5cm,
+			tick scale binop=\times,
+			scaled x ticks=base 10:-2,
+		]
+
+		\addplot[color=black, solid, ultra thick, domain=0:1001]
+			{18}; \legend{Quantidade média de épocas};
+			
+		\addplot[color=black, solid, thick]
+			file {plotdata/epochs_omega.dat};
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Épocas de treinamento na geração das 1.000 chaves binárias.}
+	\label{graph:epochsResultOmega}
+\end{figure}

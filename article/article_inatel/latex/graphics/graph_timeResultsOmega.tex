@@ -1,0 +1,32 @@
+% Graph: Análise do volume de dados no Experimento Omega
+\begin{figure*}[hb]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			% title={Análise do tempo de geração por chave},
+			tick scale binop=\times,
+			ylabel={Tempo [microsegundos]},
+			xlabel={Número da chave},
+			ymin=9000, ymax=24000,
+			xmin=0, xmax=1001,
+			ymajorgrids=true,
+			xmajorgrids=true,
+			grid style=dashed,
+			height=8.5cm,
+			width=17.5cm,
+			scaled x ticks=base 10:-2,
+			scaled y ticks=base 10:-3,
+		]
+		
+		\addplot[color=black, solid, ultra thick, domain=0:1001]
+			{14080};
+			\legend{Tempo médio};
+			
+		\addplot[color=black, solid, thick, only marks, mark=x]
+			file {plotdata/time_omega.dat};
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Tempo por chave de geração das 1.000 chaves binárias.}
+	\label{graph:timeResultOmega}
+\end{figure*}

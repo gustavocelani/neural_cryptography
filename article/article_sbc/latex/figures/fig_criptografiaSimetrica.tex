@@ -1,0 +1,30 @@
+% Diagrama: Compartilhamento de chave em criptografia simétrica
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    
+        % Styles
+        \tikzset{block/.style={draw,thick,text width=2.5cm,minimum height=1cm,align=center},line/.style={-latex}};
+        \tikzset{dsBlock/.style={draw,thick,dashed,minimum height=1cm,align=center},line/.style={-latex}};
+        
+        % Nodes
+        \node[block]                                  (p) {Texto\\Puro};
+        \node[dsBlock, right=of p]                    (k) {Chave\\Criptográfica};
+        \node[block,   right=of k]                    (c) {Texto\\Criptografado};
+        \node[ellipse, draw, thick, above=0.5cm of k] (e) {Encriptação};
+        \node[ellipse, draw, thick, below=0.5cm of k] (d) {Decriptação};
+    
+        % Dashed
+        \draw[dashed, thick] (k.north) -- (e.south);
+        \draw[dashed, thick] (k.south) -- (d.north);
+    
+        % Arrows
+        \path[draw, -stealth] (p.north) -- ++(0,1cm)   -- ++(0,0)       -- (e.west);
+        \path[draw, -stealth] (e.east)  -- ++(0,0)     -- ++(2.05cm,0)  -- (c.north);
+        \path[draw, -stealth] (c.south) -- ++(0,-1cm)  -- ++(0,0)       -- (d.east);
+        \path[draw, -stealth] (d.west)  -- ++(0,0)     -- ++(-2cm,0)    -- (p.south);
+
+    \end{tikzpicture}
+    \caption{Compartilhamento de chave em criptografia simétrica.}
+    \label{fig:criptografiaSimetrica}
+\end{figure}

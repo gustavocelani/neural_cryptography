@@ -1,0 +1,53 @@
+% Figura: Neurônio Artificial
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        
+        % Styles
+        \tikzset{iweight/.style={circle,draw,thick,text width=0.55cm, align=center},line/.style={-latex}};
+        \tikzset{lcomb/.style={circle,draw,thick,text width=1.2cm,minimum height=1cm,align=center},line/.style={-latex}};
+        \tikzset{tfunc/.style={rectangle,draw,thick,text width=1cm,minimum height=1cm,align=center},line/.style={-latex}};
+        
+        % Nodes
+        \node[lcomb] (s) {\textit{$\sum$}};
+        \node[tfunc, right=0.8cm of s] (t) {\textit{$\varphi(.)$}};
+        \node[above=0.4cm of s]        (b) {\textit{$b_k$}};
+        \node[right=0.8 of t]          (o) {\textit{$y_k$}};
+        \node[thick] at (1.15,0.25)    (v) {\textit{$v_k$}};
+
+        % Weights
+        \node[iweight, left=0.8cm  of s]   (w2) {\textit{$w_{k2}$}};
+        \node[iweight, above=0.25cm of w2] (w1) {\textit{$w_{k1}$}};
+        \node[iweight, below=0.6cm of w2]  (wm) {\textit{$w_{km}$}};
+        
+        % Input Text
+        \node[left=0.8 of w1] (x1) {\textit{$x_1$}};
+        \node[left=0.8 of w2] (x2) {\textit{$x_2$}};
+        \node[left=0.8 of wm] (xm) {\textit{$x_m$}};
+        
+        % Arrows
+        \draw[-stealth, thick] (x1) -- (w1);
+        \draw[-stealth, thick] (x2) -- (w2);
+        \draw[-stealth, thick] (xm) -- (wm);
+        \draw[-stealth, thick] (b)  -- (s);
+        \draw[-stealth, thick] (w1) -- (s);
+        \draw[-stealth, thick] (w2) -- (s);
+        \draw[-stealth, thick] (wm) -- (s);
+        \draw[-stealth, thick] (s)  -- (t);
+        \draw[-stealth, thick] (t)  -- (o);
+        
+        % Dotted
+        \draw[dotted, thick] (-2.05, -0.6) -- (-2.05, -0.95);
+        \draw[dotted, thick] (-3.65, -0.6) -- (-3.65, -0.95);
+        
+        % Label Nodes
+        %\node[text width=0.5cm] at (-3.75,-2.4) {\textit{Entradas}};
+        %\node[text width=0.5cm] at (-2.25,-2.6) {\textit{Pesos\\Sinápticos}};
+        %\node[text width=0.5cm] at (-0.3,-2.55) {\textit{Somador}};
+        %\node[text width=0.5cm] at (1.7,-2.55)  {\textit{Função de\\Ativação}};
+        %\node[text width=0.5cm] at (3.6, -2.4)  {\textit{Saída}};
+        
+    \end{tikzpicture}
+    \caption{Representação de um neurônio artificial.}
+    \label{fig:neuronio}
+\end{figure}

@@ -1,0 +1,40 @@
+% Graphic: Análise de volume de dados nos resultados do Experimento Delta
+% \begin{figure*}[!ht]
+\begin{figure}[H]
+\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			%title={Número médio de volude de dados trocados no Experimento $\delta$},
+			tick scale binop=\times,
+			symbolic y coords={Tangente Hiperbólica $\rightleftharpoons$ Anti-Hebbian, Sigmoid $\rightleftharpoons$ Anti-Hebbian, Linear $\rightleftharpoons$ Random Walk, Linear $\rightleftharpoons$ Anti-Hebbian, Sinal $\rightleftharpoons$ Random Walk, Sinal $\rightleftharpoons$ Anti-Hebbian, Sinal $\rightleftharpoons$ Hebbian},
+			xbar,
+			xmin=0,
+			xlabel={Volume de dados trocados entre as redes neurais artificiais [\textit{Bytes}]},
+			bar width=10pt,
+			ytick=data,
+			legend pos=south east,
+			ymajorgrids=true,
+			xmajorgrids=true,
+			grid style=dashed,
+			height=5.3cm,
+			width=10cm,
+			xmin=0, xmax=13000,
+			nodes near coords, nodes near coords align={horizontal},
+		]
+		 
+		\addplot[color=black, solid, thick]
+			coordinates {
+				(10448,Sinal $\rightleftharpoons$ Hebbian)
+				(2777,Sinal $\rightleftharpoons$ Anti-Hebbian)
+				(11373,Sinal $\rightleftharpoons$ Random Walk)
+				(1058,Linear $\rightleftharpoons$ Anti-Hebbian)
+				(7274,Linear $\rightleftharpoons$ Random Walk)
+				(2116,Sigmoid $\rightleftharpoons$ Anti-Hebbian)
+				(8860,Tangente Hiperbólica $\rightleftharpoons$ Anti-Hebbian)
+			}; \legend{\textit{Bytes}}
+		 
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Análise do volume médio de dados trocados na geração de cada chave com desvio padrão nos resultados do Experimento 1.}
+	\label{graph:dataVolResultsDelta}
+\end{figure}

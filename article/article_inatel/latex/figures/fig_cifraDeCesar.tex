@@ -1,0 +1,28 @@
+% Figura: Cifra de César
+\begin{figure}[H]
+    \begin{tikzpicture}
+    
+        % Styles
+        \tikzset{block/.style={draw,thick,text width=3.7cm,minimum height=0.5cm,align=center},line/.style={-latex}}
+
+        % Contatos Node
+        \node[block]                 (o)  {I AM YOUR FATHER};
+        \node[block, below=1mm of o] (c)  {K CO AQWT HCVJGT};
+        \node[block, below=1mm of c] (o2) {I AM YOUR FATHER};
+        
+        % Encryptation Arrow
+        \draw [-stealth, thick] (o.east) to [out=0,in=0] node[right] {$
+        \begin{aligned}
+            E_n (x) &= (x+2) \bmod (26)
+        \end{aligned}$} (c.east);
+        
+        % Decryptation Arrow
+        \draw [-stealth, thick] (c.east) to [out=0,in=0] node[right] {$
+        \begin{aligned}
+            D_n (x) &= (x-2) \bmod (26)
+        \end{aligned}$} (o2.east);
+        
+    \end{tikzpicture}
+    \caption{Cifra de César utilizando a chave "2".}
+    \label{fig:cifraDeCesar}
+\end{figure}

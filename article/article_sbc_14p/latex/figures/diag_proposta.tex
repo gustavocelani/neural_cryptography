@@ -1,0 +1,57 @@
+% Figura: Diagrama em Blocos da Proposta
+% \begin{figure*}[!ht]
+\begin{figure}[H]
+	\centering
+		\begin{tikzpicture}
+			
+			% Styles
+			\tikzset{
+				largeBlock/.style={draw, align=center, thick, rectangle, text width=3.5cm, minimum height=1cm},
+				smallBlock/.style={draw, align=center, thick, rectangle, text width=2.6cm, minimum height=1cm},
+				decision/.style={draw, align=center, thick, diamond, aspect=2, text width=2cm},
+				concat/.style={draw, align=center, thick, circle, text width=0.1cm, minimum height=0.1cm}
+			}
+			
+			% Nodes
+			\node[largeBlock]                                                  (param)    {Parametrização};
+			\node[largeBlock, below=0.5cm of param]                            (init)     {Inicialização};
+			\node[largeBlock, below left=of init,  yshift=0.75cm, xshift=-1cm] (tpmA)     {\textit{Tree Parity Machine} A};
+			\node[largeBlock, below right=of init, yshift=0.75cm, xshift=+1cm] (tpmB)     {\textit{Tree Parity Machine} B};
+			\node[concat,     below=0.5 of tpmA]                               (cA)       {};
+			\node[concat,     below=0.5 of tpmB]                               (cB)       {};
+			\node[largeBlock, below=0.5cm of cA]                               (outA)     {Saída da TPM A ($\tau^A$)};
+			\node[largeBlock, below=0.5cm of cB]                               (outB)     {Saída da TPM B ($\tau^B$)};
+			\node[smallBlock, below=1.3cm of init]                             (inputGen) {Geração do\\Vetor de Entrada};
+			\node[decision,   below=1cm of inputGen]                           (sameOut)  {$\tau^A == \tau^B$};
+			\node[smallBlock, below=0.5cm of sameOut]                          (learn)    {Regra de Aprendizado};
+			\node[decision,   below=0.5cm of learn]                            (sameW)    {$w^A == w^B$};
+			\node[largeBlock, left=2.25cm of sameW]                            (key)      {Chave Gerada};
+			
+			% Arrows
+			\draw[-stealth, thick]       (param)         -- (init);
+			\draw[-stealth, thick]       (tpmA)          -- (cA);
+			\draw[-stealth, thick]       (tpmB)          -- (cB);
+			\draw[-stealth, thick]       (cA)            -- (outA);
+			\draw[-stealth, thick]       (cB)            -- (outB);
+			\draw[-stealth, thick]       (inputGen.west) -- (cA.east);
+			\draw[-stealth, thick]       (inputGen.east) -- (cB.west);
+			\draw[-stealth, thick]       (sameOut.south) -- (learn.north);
+			\draw[-stealth, thick]       (learn.south)   -- (sameW.north);
+			\draw[-stealth, thick]       (sameW.west)    -- (key.east);
+			\draw[-stealth, thick]       (sameOut.north) -- (inputGen.south);
+			\path[draw, -stealth, thick] (init.west)     -- ++(-3.88cm,0) -- ++(0,0) -- (tpmA.north);
+			\path[draw, -stealth, thick] (init.east)     -- ++(+3.88cm,0) -- ++(0,0) -- (tpmB.north);
+			\path[draw, -stealth, thick] (outA.south)    -- ++(0,-0.8cm)  -- ++(0,0) -- (sameOut.west);
+			\path[draw, -stealth, thick] (outB.south)    -- ++(0,-0.8cm)  -- ++(0,0) -- (sameOut.east);
+			\path[draw, -stealth, thick] (sameW.east)    -- ++(1.35cm,0)  -- ++(0,8.2cm) -- ++(-3.15cm,0) -- (inputGen.north);
+			
+			% Labels
+			\node[thick] at (0.6cm,  -5.6cm)  {false};
+			\node[thick] at (0.6cm,  -7.9cm) {true};
+			\node[thick] at (2.3cm,  -10.5cm)  {false};
+			\node[thick] at (-2.3cm, -10.5cm)  {true};
+
+		\end{tikzpicture}
+	\caption{Diagrama em blocos da proposta.}
+	\label{diag:proposta}
+\end{figure}

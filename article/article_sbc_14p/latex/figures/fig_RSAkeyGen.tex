@@ -1,0 +1,30 @@
+% Figura: Fluxograma da Geração de chaves RSA
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+                    
+        % Styles
+        \tikzset{
+            block/.style={draw, align=center, thick, rectangle, text width=4.3cm, minimum height=0.9cm},
+            dblock/.style={draw, align=center, thick, rectangle, dashed, text width=4.3cm, minimum height=0.9cm}
+        }
+        
+        % Nodes
+        \node[block]                      (rnc) {Geração Pseudoaleatória de Número};
+        \node[block, right=1.5cm of rnc]  (m)   {$\textit{n} = \textit{p} \times \textit{q}$};
+        \node[block, below=1cm of m]    (phi) {$\phi_{(n)} = mmc(\textit{p}-1, \textit{q}-1)$};
+        \node[block, left=1.5cm of phi]   (e)   {$1 < \textit{e}' < \phi_{(n)}$};
+        \node[block, below=1cm of e]    (d)   {$\textit{d} \equiv mod(\phi_{(n)})$};
+        \node[dblock, right=1.5cm of d] (k)   {\textit{PVK = [n, e]}\\\textit{PBK = [p, q, d]}};
+
+        % Arrows
+        \draw[-stealth, thick] (rnc) -- (m);
+        \draw[-stealth, thick] (m)   -- (phi);
+        \draw[-stealth, thick] (phi) -- (e);
+        \draw[-stealth, thick] (e)   -- (d);
+        \draw[-stealth, thick] (d)   -- (k);
+
+    \end{tikzpicture}
+    \caption{Diagrama de geração de chaves RSA.}
+    \label{fig:RSAkeyGen}
+\end{figure}

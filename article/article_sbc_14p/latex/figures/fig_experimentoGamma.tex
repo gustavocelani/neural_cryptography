@@ -1,0 +1,48 @@
+% Figura: Experimento Gamma
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+
+		% Styles
+		\tikzset{
+			block2/.style={draw, align=center, thick, rectangle, text width=1.5cm, minimum height=0.5cm},
+			block3/.style={draw, align=center, thick, rectangle, text width=4.5cm, minimum height=1.25cm},
+		}
+
+		% Nodes
+		\node[thick, align=center] (c) {
+			\begin{tabular}{ |c|c| }
+				\hline
+				\multicolumn{2}{ |c| }{$C_i [k_i, n_i]$} \\
+				\hline \hline
+				$k_i$ & $n_i$ \\
+				\hline \hline
+				1    & 1.024 \\ \hline
+				2    & 512   \\ \hline
+				4    & 256   \\ \hline
+				8    & 128   \\ \hline
+				16   & 64    \\ \hline
+				32   & 32    \\ \hline
+				64   & 16    \\ \hline
+				128  & 8     \\ \hline
+				256  & 4     \\ \hline
+				512  & 2     \\ \hline
+				1.024 & 1    \\
+				\hline
+			\end{tabular}
+		};
+		\node[block2, right=1cm of c]  (l)  {\textit{L = 5}};
+		\node[block3, right=1cm of l]  (o1) {Função de Ativação B\\Regra de Aprendizado B};
+		\node[block3, above=0.5cm of o1] (o2) {Função de Ativação A\\Regra de Aprendizado A};
+		\node[block3, below=0.5cm of o1] (o3) {Função de Ativação C\\Regra de Aprendizado C};
+
+		% Arrows
+		\draw[-stealth, thick] (c.east) -- (l.west);
+		\draw[-stealth, thick] (l.east) -- (o1.west);
+		\draw[-stealth, thick] (l.east) -- (o2.west);
+		\draw[-stealth, thick] (l.east) -- (o3.west);
+
+	\end{tikzpicture}
+	\caption{Experimento 2.}
+	\label{fig:experimentoGamma}
+\end{figure}
